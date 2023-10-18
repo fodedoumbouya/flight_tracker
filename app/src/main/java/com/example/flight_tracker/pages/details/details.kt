@@ -1,3 +1,5 @@
+package com.example.flight_tracker.pages.details
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
