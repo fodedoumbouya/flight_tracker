@@ -148,7 +148,7 @@ class Utils private constructor() {
             return getHourMinuteFormat().format(Date(time))
         }
 
-        fun dateToString(date: Date?): String {
+        fun dateToString(date: Date): String {
             return dateToString(date, false)
         }
 
