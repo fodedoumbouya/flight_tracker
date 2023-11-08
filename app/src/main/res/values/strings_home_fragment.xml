@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Flight Tracker</string>
+    <string name="arrival">Arrival</string>
+    <string name="departure">Departure</string>
+    <string name="choose_airport">Choose the airport</string>
+    <string name="begin_date">Choose a start date</string>
+    <string name="end_date">Choose an end date</string>
+    <string name="btn_validate">Let\'s flight !</string>
+</resources>

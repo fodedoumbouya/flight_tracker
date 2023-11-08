@@ -1,7 +1,9 @@
-package com.example.flight_tracker
+package com.example.flight_tracker.commom
 
 import android.content.Context
 import android.util.Log
+import com.example.flight_tracker.FlightApplication
+import com.example.flight_tracker.models.openSkyApiModels.AirportModel
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
@@ -29,11 +31,11 @@ class Utils private constructor() {
 
     companion object {
 
-        fun generateAirportList(): List<Airport>{
-            val airportList = ArrayList<Airport>()
+        fun generateAirportList(): List<AirportModel>{
+            val airportList = ArrayList<AirportModel>()
 
             for (airportObject in getAirportsListJson()) {
-                airportList.add(Gson().fromJson(airportObject.asJsonObject, Airport::class.java))
+                airportList.add(Gson().fromJson(airportObject.asJsonObject, AirportModel::class.java))
             }
 
             return airportList
@@ -148,7 +150,7 @@ class Utils private constructor() {
             return getHourMinuteFormat().format(Date(time))
         }
 
-        fun dateToString(date: Date?): String {
+        fun dateToString(date: Date): String {
             return dateToString(date, false)
         }
 

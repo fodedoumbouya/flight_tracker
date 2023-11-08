@@ -8,10 +8,12 @@
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="com.example.flight_tracker.pages.maps.Maps"
-        android:id="@+id/viewer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="MissingConstraints" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

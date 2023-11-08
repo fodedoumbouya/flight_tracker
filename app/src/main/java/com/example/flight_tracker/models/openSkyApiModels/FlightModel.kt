@@ -1,4 +1,4 @@
-package com.example.flight_tracker
+package com.example.flight_tracker.models.openSkyApiModels
 
 /**
  * Created by sergio on 07/11/2021

@@ -1,10 +1,10 @@
-package com.example.flight_tracker
+package com.example.flight_tracker.models.openSkyApiModels
 
 /**
  * Created by sergio on 07/11/2021
  * All rights reserved GoodBarber
  */
-data class Airport(
+data class AirportModel(
     val code: String,
     val lat: String,
     val lon: String,
@@ -26,5 +26,9 @@ data class Airport(
 ) {
     fun getFormattedName(): String {
         return "$code $city ($country)"
+    }
+
+    override fun toString(): String {
+        return "$code - $name"
     }
 }
