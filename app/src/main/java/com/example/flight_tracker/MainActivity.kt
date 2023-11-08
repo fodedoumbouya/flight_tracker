@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.flight_tracker.commom.Utils
 import com.example.flight_tracker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

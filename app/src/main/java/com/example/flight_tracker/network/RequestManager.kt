@@ -1,9 +1,10 @@
-package com.example.flight_tracker
+package com.example.flight_tracker.network
 
 import android.util.Log
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -12,17 +13,13 @@ import java.net.URL
  * All rights reserved GoodBarber
  */
 class RequestManager {
-
-    interface RequestListener {
-        fun onRequestSuccess(result: String?)
-        fun onRequestFailed()
-    }
+    var TAG = RequestManager::class.java.simpleName
 
     companion object {
         fun get(
             sourceUrl: String?,
-            params: Map<String, String>?
-        ): String? {
+            params: Map<String, Any>?
+        ) : RequestListener<String>{
             val result = StringBuilder()
             var finalSourceUrl = sourceUrl
             try {
@@ -48,7 +45,7 @@ class RequestManager {
                 httpURLConnection.readTimeout = 10000
                 Log.i(
                     "RequestManager",
-                    "Request[GET]: \nURL: $finalSourceUrl\nNb Param: $c"
+                    "Request[GET]: \nURL: $finalSourceUrl\nNb Param: $c, httpURLConnection : ${httpURLConnection.responseCode}"
                 )
                 val reader =
                     BufferedReader(InputStreamReader(httpURLConnection.inputStream))
@@ -57,22 +54,24 @@ class RequestManager {
                     result.append(line)
                 }
                 reader.close()
-                return result.toString()
+                return RequestListener.Success(result.toString())
             } catch (e: IOException) {
                 Log.e(
                     "RequestManager",
-                    "Error while doing GET request (url: " + finalSourceUrl + ") - " + e.message
+                    "Error while doing GET request (url: " + finalSourceUrl + ") - " + e.cause
                 )
+                return RequestListener.Error(e)
             }
-            return null
         }
 
         suspend fun getSuspended(
             sourceUrl: String?,
-            params: Map<String, String>?
-        ): String? {
+            params: Map<String, Any>?,
+            responseAlwaysOK : Boolean = false
+        ): RequestListener<String> {
             val result = StringBuilder()
             var finalSourceUrl = sourceUrl
+            var responseCode = -1
             try {
                 //Params
                 var c = 0
@@ -94,9 +93,10 @@ class RequestManager {
                 httpURLConnection.requestMethod = "GET"
                 httpURLConnection.connectTimeout = 30000
                 httpURLConnection.readTimeout = 30000
+                responseCode = httpURLConnection.responseCode
                 Log.i(
                     "RequestManager",
-                    "Request[GET]: \nURL: $finalSourceUrl\nNb Param: $c"
+                    "Request[GET]: \nURL: $finalSourceUrl\nNb Param: $c, httpURLConnection : ${httpURLConnection.responseCode}"
                 )
                 val reader =
                     BufferedReader(InputStreamReader(httpURLConnection.inputStream))
@@ -104,15 +104,20 @@ class RequestManager {
                 while (reader.readLine().also { line = it } != null) {
                     result.append(line)
                 }
+                Log.i("RequestManager", "My Result : ${result.toString()}")
                 reader.close()
-                return result.toString()
+                return RequestListener.Success(result.toString())
             } catch (e: IOException) {
                 Log.e(
                     "RequestManager",
-                    "Error while doing GET request (url: " + finalSourceUrl + ") - " + e.message
+                    "Error while doing GET request : ${e.message} "
                 )
+
+                if(responseCode == 404) {
+                    return RequestListener.Failed("Error while doing GET request : $responseCode")
+                }
+                return RequestListener.Error(e)
             }
-            return null
         }
     }
 

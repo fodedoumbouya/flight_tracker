@@ -72,6 +72,7 @@
         android:hint="@string/choose_airport"
         android:drawablePadding="6dp"
         android:drawableStart="@drawable/custom_airlines"
+        android:completionThreshold="1"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingTop="12dp"
@@ -132,13 +133,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_search"
+        android:id="@+id/btn_validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_between"
         android:fontFamily="@font/teko_bold"
         android:textSize="@dimen/font_size_min"
-        android:text="@string/btn_search"
+        android:text="@string/btn_validate"
         android:backgroundTint="@color/secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
