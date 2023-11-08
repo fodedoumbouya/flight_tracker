@@ -104,7 +104,6 @@ class RequestManager {
                 while (reader.readLine().also { line = it } != null) {
                     result.append(line)
                 }
-                Log.i("RequestManager", "My Result : ${result.toString()}")
                 reader.close()
                 return RequestListener.Success(result.toString())
             } catch (e: IOException) {

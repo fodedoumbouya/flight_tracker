@@ -16,6 +16,10 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.flight_tracker.pages.details.DetailsFragment">
+        <action
+            android:id="@+id/openMaps"
+            app:destination="@+id/mapsFragment" />
+
         <argument
             android:name="icao"
             app:argType="string"/>
@@ -28,6 +32,12 @@
         <argument
             android:name="idChecked"
             app:argType="boolean"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.flight_tracker.pages.maps.Maps" >
+
     </fragment>
 
 </navigation>

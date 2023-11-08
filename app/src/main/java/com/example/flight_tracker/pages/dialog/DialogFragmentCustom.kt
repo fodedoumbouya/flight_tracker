@@ -12,11 +12,16 @@ import androidx.navigation.fragment.findNavController
  */
 class DialogFragmentCustom(private val message : String,
                            private val negativBtnMessage : String ) : DialogFragment() {
+
+    /**
+     * TODO: Need to check why popBackStack can crash application
+     */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
             .setMessage(message)
             .setCancelable(false)
             .setNegativeButton(negativBtnMessage) { _,_ ->
+                findNavController().popBackStack()
             }
             .create()
 

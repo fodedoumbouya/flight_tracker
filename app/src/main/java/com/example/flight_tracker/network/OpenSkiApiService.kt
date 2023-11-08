@@ -21,7 +21,6 @@ object OpenSkiApiService {
         paramsList.put("end", end)
 
         val result = RequestManager.getSuspended(BASE_URL + departureOrArrivalUrl, paramsList, responseAlwaysOK)
-        Log.d("OpenSkiApiService", result.toString())
         return result
     }
 

@@ -12,7 +12,6 @@ object DataManager {
     suspend fun doRequest(airport: String, begin: Int, end: Int, isDeparture: Boolean, responseAlwaysOK : Boolean): RequestListener<*> {
         val result = OpenSkiApiService.doSearchRequest(airport, begin, end, isDeparture, responseAlwaysOK)
 
-        Log.d("DataManager", result.toString())
         return result
     }
 }
