@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.flight_tracker"
-        minSdk 24
-        targetSdk 33
+        minSdk 21
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -35,6 +35,8 @@ android {
         viewBinding = true
     }
 }
+
+
 
 dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")

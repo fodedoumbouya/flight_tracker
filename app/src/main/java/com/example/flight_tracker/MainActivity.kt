@@ -1,13 +1,16 @@
-package com.example.flight_tracker
+package com.example.flight_tracker;
 
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.flight_tracker.commom.Utils
 import com.example.flight_tracker.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         lateinit var navController: NavController
 

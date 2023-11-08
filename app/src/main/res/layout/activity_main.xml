@@ -16,4 +16,11 @@
         app:navGraph="@navigation/nav_graph"
         />
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:name="com.example.flight_tracker.pages.maps.Maps"
+        android:id="@+id/viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
