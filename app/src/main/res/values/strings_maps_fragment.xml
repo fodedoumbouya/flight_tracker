@@ -1,0 +1,6 @@
+<resources>
+    <string name="mapbox_style_url">mapbox://styles/doumbouya/cley09s67002v01o5t3dbz4g6</string>
+    <!--    <string name="mapbox_access_token">sk.eyJ1IjoiZG91bWJvdXlhIiwiYSI6ImNsbnZxcGd3eTAxc2wydG14OG90Y3p6amoifQ.19gyA3NKRRvUTWF57qcAzw</string>-->
+    <string name="mapbox_access_token">pk.eyJ1IjoiZG91bWJvdXlhIiwiYSI6ImNrYWlsMjQ3cjAyNHYydHMwaWpheTl1NDIifQ.H0XPDX2BXh3288rfj_o4eg</string>
+
+</resources>
