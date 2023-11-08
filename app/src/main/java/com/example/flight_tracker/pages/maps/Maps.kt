@@ -69,7 +69,7 @@ class Maps : Fragment() {
 
                 // Add two airports as markers
                 createMarker( mapboxMap,"Paris Airport", "Charles de Gaulle Airport",from,null)
-                createMarker( mapboxMap,"Lyon Airport", "Lyon-Saint Exupéry Airport",to,R.drawable.airplane)
+                createMarker( mapboxMap,"Lyon Airport", "Lyon-Saint Exupéry Airport",to,null) //R.drawable.airplane
 
 
                 // Create line between two Points
