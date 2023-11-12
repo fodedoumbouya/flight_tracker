@@ -1,12 +1,12 @@
 package com.example.flight_tracker.pages.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flight_tracker.databinding.FragmentDetailsBinding
@@ -23,7 +23,7 @@ class DetailsFragment : Fragment() {
         const val ICAO = "icao"
         const val END_DATE = "endDate"
         const val START_DATE = "startDate"
-        const val IS_CHECKED = "isChecked"
+        const val IS_DEPARTURE = "isDeparture"
     }
 
     private var TAG = DetailsFragment::class.java.simpleName
@@ -36,7 +36,7 @@ class DetailsFragment : Fragment() {
     private lateinit var icao : String
     private var startDate by Delegates.notNull<Int>()
     private var endDate : Int = 0
-    private var isChecked by Delegates.notNull<Boolean>()
+    private var isDeparture by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class DetailsFragment : Fragment() {
             icao = it.getString(ICAO).toString()
             startDate = it.getInt(START_DATE)
             endDate = it.getInt(END_DATE)
-            isChecked = it.getBoolean(IS_CHECKED)
+            isDeparture = it.getBoolean(IS_DEPARTURE)
         }
     }
     private fun init() {
@@ -54,7 +54,7 @@ class DetailsFragment : Fragment() {
         progressBar = binding.progressBarDetails
         viewModel.searchUiState().value = RequestListener.Loading("Loading...")
 
-        viewModel.doRequest(icao, startDate, endDate, isChecked, true)
+        viewModel.doRequest(icao, startDate, endDate, isDeparture, true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,13 +75,13 @@ class DetailsFragment : Fragment() {
                 }
                 is RequestListener.Error -> {
                     progressBar.visibility = View.GONE
-                    DialogFragmentCustom("Failed during the request, check your connection or the API is not available now.", "Try again").show(
+                    DialogFragmentCustom(false,"Failed during the request, check your connection or the API is not available now.", "Try again").show(
                         parentFragmentManager, "DialogFragmentError"
                     )
                 }
                 is RequestListener.Failed -> {
                     progressBar.visibility = View.GONE
-                    DialogFragmentCustom(it.message, "Cancel").show(
+                    DialogFragmentCustom(false, it.message, "Cancel").show(
                         parentFragmentManager, "DialogFragmentFailed"
                     )
                 }

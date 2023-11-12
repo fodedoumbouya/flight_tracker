@@ -37,16 +37,18 @@ class HomeFragment : Fragment(){
     private lateinit var airportAutoCompleteTextView : AutoCompleteTextView
     private lateinit var airportItem : AirportModel
     private lateinit var listAirport : Array<out AirportModel>
-    private lateinit var getAirportList : List<AirportModel>
     private lateinit var flightSearchStatus : TextView
+    private lateinit var btnEditAirport: Button
 
     private fun init() {
         viewModel = ViewModelProvider(requireActivity()).get(FlightTrackViewModel::class.java)
-        viewModel.isChecked().value = false
+        viewModel.isChecked().value = if (viewModel.isChecked().value != null) viewModel.isChecked().value else false
         airportAutoCompleteTextView = binding.autocompleteAirport
         listAirport = Utils.generateAirportList().toTypedArray()
         flightSearchStatus = binding.flightSearchStatus
         flightSearchStatus.text = getString(R.string.departure)
+
+        btnEditAirport = binding.btnEditAirport
 
         ArrayAdapter<AirportModel>(requireContext(), android.R.layout.simple_list_item_1, listAirport).also { adapter ->
             airportAutoCompleteTextView.apply {
@@ -54,6 +56,8 @@ class HomeFragment : Fragment(){
                 threshold = 1
             }
         }
+
+        setAirportEdit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,14 +85,22 @@ class HomeFragment : Fragment(){
             }
         }
 
-        airportAutoCompleteTextView.apply {
-            setOnDismissListener {
-                airportAutoCompleteTextView.clearFocus()
+        btnEditAirport.apply {
+            setOnClickListener {
+                airportAutoCompleteTextView.apply {
+                    text.clear()
+                    viewModel.airport().value = null
+                    isEnabled = true
+                }
+                visibility = View.GONE
             }
-            setOnItemClickListener { parent, view, position, id ->
-                airportItem = (airportAutoCompleteTextView.adapter.getItem(position) as AirportModel?)!!
+        }
+
+        airportAutoCompleteTextView.apply {
+            setOnItemClickListener { _, _, position, _ ->
+                airportItem = (adapter.getItem(position) as AirportModel?)!!
                 viewModel.airport().value = airportItem
-                clearFocus()
+                setAirportEdit()
             }
         }
 
@@ -101,22 +113,15 @@ class HomeFragment : Fragment(){
         }
 
         beginDatePickerEditText.setOnClickListener {
-            val newFragment = DatePickerFragment(btnSwitch.isChecked,
-                if (viewModel.startDate().value != null)
-                    viewModel.startDate().value
-                else
-                    Calendar.getInstance() )
+            val newFragment = DatePickerFragment(true, viewModel.startDate())
+
             newFragment.show(parentFragmentManager, "datePickerStart")
         }
 
         endDatePickerEditText.setOnClickListener {
-            val newFragment = DatePickerFragment(!btnSwitch.isChecked,
-                if(viewModel.endDate().value != null)
-                    viewModel.endDate().value
-                else
-                    Calendar.getInstance() )
+            val newFragment = DatePickerFragment(false, viewModel.endDate())
 
-            newFragment.show(parentFragmentManager, "datePickEnd")
+            newFragment.show(parentFragmentManager, "datePickerEnd")
         }
 
         btnValidate.setOnClickListener {
@@ -131,7 +136,7 @@ class HomeFragment : Fragment(){
 
                 findNavController().navigate(openDetailsFragment)
             } else {
-                DialogFragmentCustom("Please fill all input to search your flight", "Cancel").show(
+                DialogFragmentCustom(true,"Please fill all input to search your flight", "Cancel").show(
                     parentFragmentManager, "DialogFragmentErrorLoad"
                 )
             }
@@ -157,5 +162,12 @@ class HomeFragment : Fragment(){
         return viewModel.airport().value != null &&
                 viewModel.startDate().value != null &&
                 viewModel.endDate().value != null
+    }
+
+    private fun setAirportEdit(){
+        if (viewModel.airport().value != null) {
+            airportAutoCompleteTextView.isEnabled = false
+            btnEditAirport.visibility = View.VISIBLE
+        }
     }
 }

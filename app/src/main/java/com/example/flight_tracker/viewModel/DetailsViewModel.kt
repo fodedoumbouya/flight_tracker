@@ -37,9 +37,7 @@ class DetailsViewModel : ViewModel() {
                     icao,
                     startDate,
                     endDate,
-                    isChecked,
-                    responseAlwaysOK
-                )
+                    isChecked)
 
                 when(result) {
                     is RequestListener.Loading -> {

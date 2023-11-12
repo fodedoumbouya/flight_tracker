@@ -30,7 +30,7 @@
             android:name="endDate"
             app:argType="integer"/>
         <argument
-            android:name="idChecked"
+            android:name="isDeparture"
             app:argType="boolean"/>
     </fragment>
 
