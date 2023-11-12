@@ -67,7 +67,6 @@ class RequestManager {
         suspend fun getSuspended(
             sourceUrl: String?,
             params: Map<String, Any>?,
-            responseAlwaysOK : Boolean = false
         ): RequestListener<String> {
             val result = StringBuilder()
             var finalSourceUrl = sourceUrl

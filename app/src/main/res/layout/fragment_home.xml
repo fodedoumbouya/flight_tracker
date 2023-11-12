@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
     android:paddingTop="16dp"
@@ -64,7 +64,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/autocomplete_airport"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:maxLines="1"
@@ -82,8 +82,21 @@
         android:textSize="@dimen/font_size"
         android:background="@drawable/custom_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_switch"
+        app:layout_constraintEnd_toStartOf="@+id/btn_edit_airport"
+        />
+
+    <android.widget.Button
+        android:id="@+id/btn_edit_airport"
+        android:layout_width="@dimen/image_sqaure"
+        android:layout_height="@dimen/image_sqaure"
+        android:background="@drawable/btn_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/autocomplete_airport"
+        app:layout_constraintTop_toTopOf="@+id/autocomplete_airport"
+        app:layout_constraintBottom_toBottomOf="@+id/autocomplete_airport"
+        tools:visibility="visible"
         />
 
     <EditText
