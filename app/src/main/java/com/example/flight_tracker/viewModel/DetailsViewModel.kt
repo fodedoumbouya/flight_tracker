@@ -1,26 +1,29 @@
 package com.example.flight_tracker.viewModel
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flight_tracker.data.DataManager
+import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
-import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
 
 /**
  * @author by Idricealy on 08/11/2023
  */
 class DetailsViewModel : ViewModel() {
-    private var _searchUiState = MutableLiveData<RequestListener<String>>()
+    private var _flightsUiState = MutableLiveData<RequestListener<String>>()
+    private var _flightsList = MutableLiveData<List<FlightModel>>()
 
-    fun searchUiState(): MutableLiveData<RequestListener<String>> {
-        return _searchUiState
+    fun flightsList() : MutableLiveData<List<FlightModel>> {
+        return _flightsList
+    }
+    fun flightsUiState(): MutableLiveData<RequestListener<String>> {
+        return _flightsUiState
     }
 
     private var _stringData = MutableLiveData<String>()
@@ -29,34 +32,38 @@ class DetailsViewModel : ViewModel() {
         return _stringData
     }
 
-    fun doRequest(icao : String, startDate : Int, endDate: Int, isChecked : Boolean, responseAlwaysOK : Boolean)  {
-        _searchUiState
+    fun getFlights(icao : String, startDate : Int, endDate: Int, isChecked : Boolean)  {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = DataManager.doRequest(
+                val result = DataManager.getFlights(
                     icao,
                     startDate,
                     endDate,
                     isChecked)
 
                 when(result) {
-                    is RequestListener.Loading -> {
+                    is RequestListener.Loading<*> -> {
 
                     }
-                    is RequestListener.Success -> {
-                        _searchUiState.postValue(RequestListener.Success(result.data))
+                    is RequestListener.Success<*> -> {
+                        _flightsUiState.postValue(RequestListener.Success(result.data))
+                        _flightsList.postValue(requestResponseToList(result.data))
                     }
                     is RequestListener.Error -> {
-                        _searchUiState.postValue(RequestListener.Error(result.exception))
+                        _flightsUiState.postValue(RequestListener.Error(result.exception))
                     }
                     is RequestListener.Failed -> {
-                        _searchUiState.postValue(RequestListener.Failed(result.message))
+                        _flightsUiState.postValue(RequestListener.Failed(result.message))
                     }
                 }
-
-
             }
         }
+    }
+
+    private fun requestResponseToList(strJson : String) : List<FlightModel>{
+        val typeFlightModel = object : TypeToken<List<FlightModel>>() {}.type
+
+        return Gson().fromJson(strJson, typeFlightModel)
     }
 
 }

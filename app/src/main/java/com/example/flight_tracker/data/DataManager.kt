@@ -8,13 +8,13 @@ import com.example.flight_tracker.network.RequestListener
  */
 object DataManager {
 
-    suspend fun doRequest(
+    suspend fun getFlights(
         airport: String,
         begin: Int,
         end: Int,
         isDeparture: Boolean
     ): RequestListener<*> {
 
-        return OpenSkiApiService.doSearchRequest(airport, begin, end, isDeparture)
+        return OpenSkiApiService.getFlights(airport, begin, end, isDeparture)
     }
 }

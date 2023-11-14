@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flight_tracker.databinding.FragmentDetailsBinding
+import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
 import com.example.flight_tracker.viewModel.DetailsViewModel
@@ -37,6 +38,8 @@ class DetailsFragment : Fragment() {
     private var startDate by Delegates.notNull<Int>()
     private var endDate : Int = 0
     private var isDeparture by Delegates.notNull<Boolean>()
+    // List flight to use to use by recycler view to display data
+    private lateinit var flightsList : MutableList<FlightModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,15 +55,20 @@ class DetailsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(DetailsViewModel::class.java)
         stringData = binding.stringData
         progressBar = binding.progressBarDetails
-        viewModel.searchUiState().value = RequestListener.Loading("Loading...")
-
-        viewModel.doRequest(icao, startDate, endDate, isDeparture, true)
+        viewModel.flightsUiState().value = RequestListener.Loading("Loading...")
+        flightsList = mutableListOf<FlightModel>()
+        viewModel.getFlights(icao, startDate, endDate, isDeparture)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
 
-        viewModel.searchUiState().observe(viewLifecycleOwner) {
+        viewModel.flightsList().observe(viewLifecycleOwner) {
+            flightsList.addAll(it)
+        }
+
+        // update UI depending on getFlights request
+        viewModel.flightsUiState().observe(viewLifecycleOwner) {
             when(it) {
                 is RequestListener.Loading -> {
                     progressBar.visibility = View.VISIBLE
@@ -68,9 +76,11 @@ class DetailsFragment : Fragment() {
                 }
                 is RequestListener.Success -> {
                     progressBar.visibility = View.GONE
+                    //don't forget to delete this string
+                    // this thing is here just for example to display data
                     stringData.apply {
                         visibility = View.VISIBLE
-                        text = it.data
+                        text = it.toString()
                     }
                 }
                 is RequestListener.Error -> {
