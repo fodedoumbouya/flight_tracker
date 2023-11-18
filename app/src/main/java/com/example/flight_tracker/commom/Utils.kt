@@ -41,6 +41,7 @@ class Utils private constructor() {
             return airportList
         }
 
+        @Deprecated("This method is deprecated, instead use getSampleFileModel method.")
         fun getAirportsListJson() : JsonArray {
             var input: InputStream?
             input = FlightApplication.appAssetManager.open("airports.json")
@@ -49,6 +50,13 @@ class Utils private constructor() {
             return jsonElement.asJsonArray
         }
 
+        fun assetsJsonFileToJsonArray(fileName: String) : JsonArray {
+            var input: InputStream?
+            input = FlightApplication.appAssetManager.open(fileName)
+            val parser = JsonParser()
+            val jsonElement = parser.parse(getTextFromStream(input))
+            return jsonElement.asJsonArray
+        }
 
         fun getText(filename: String): String? {
             val f = File(getRootDirectory(), filename)

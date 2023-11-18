@@ -22,54 +22,6 @@ class RequestManager {
         ) : RequestListener<String>{
             val result = StringBuilder()
             var finalSourceUrl = sourceUrl
-            try {
-                //Params
-                var c = 0
-                for (key in params!!.keys) {
-                    val value = params[key]
-                    if (c != 0) {
-                        finalSourceUrl += "&"
-                    } else {
-                        finalSourceUrl += "?"
-                    }
-
-                    finalSourceUrl += "$key=$value"
-                    c++
-
-                }
-                val url = URL(finalSourceUrl)
-                val httpURLConnection =
-                    url.openConnection() as HttpURLConnection
-                httpURLConnection.requestMethod = "GET"
-                httpURLConnection.connectTimeout = 10000
-                httpURLConnection.readTimeout = 10000
-                Log.i(
-                    "RequestManager",
-                    "Request[GET]: \nURL: $finalSourceUrl\nNb Param: $c, httpURLConnection : ${httpURLConnection.responseCode}"
-                )
-                val reader =
-                    BufferedReader(InputStreamReader(httpURLConnection.inputStream))
-                var line: String?
-                while (reader.readLine().also { line = it } != null) {
-                    result.append(line)
-                }
-                reader.close()
-                return RequestListener.Success(result.toString())
-            } catch (e: IOException) {
-                Log.e(
-                    "RequestManager",
-                    "Error while doing GET request (url: " + finalSourceUrl + ") - " + e.cause
-                )
-                return RequestListener.Error(e)
-            }
-        }
-
-        suspend fun getSuspended(
-            sourceUrl: String?,
-            params: Map<String, Any>?,
-        ): RequestListener<String> {
-            val result = StringBuilder()
-            var finalSourceUrl = sourceUrl
             var responseCode = -1
             try {
                 //Params

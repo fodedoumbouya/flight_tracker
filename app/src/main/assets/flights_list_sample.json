@@ -1,0 +1,101 @@
+[
+  {
+    "icao24": "3944e8",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RK",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e9",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RL",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e7",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RM",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e6",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RN",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e5",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RO",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e4",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RP",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e3",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RQ",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e2",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RR",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  },
+  {
+    "icao24": "3944e1",
+    "estDepartureAirport": "LFBO",
+    "estArrivalAirport": "LFPO",
+    "lastSeen": 1572285820,
+    "callSign": "AFR42RS",
+    "estDepartureAirportHorizDistance": 1050,
+    "estArrivalAirportHorizDistance": 2001,
+    "estDepartureAirportVertDistance": 73,
+    "arrivalAirportCandidatesCount": 8
+  }
+]

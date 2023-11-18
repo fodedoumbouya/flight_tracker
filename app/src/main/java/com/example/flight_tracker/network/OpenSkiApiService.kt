@@ -10,7 +10,7 @@ object OpenSkiApiService {
     private const val DEPARTURE_URL = "/flights/departure"
     private const val ARRIVAL_URL = "/flights/arrival"
 
-    suspend fun getFlights(
+    fun getFlights(
         airport: String,
         begin: Int,
         end: Int,
@@ -23,7 +23,7 @@ object OpenSkiApiService {
         paramsList.put("begin", begin)
         paramsList.put("end", end)
 
-        return RequestManager.getSuspended(
+        return RequestManager.get(
             BASE_URL + departureOrArrivalUrl,
             paramsList,
         )
