@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.flight_tracker.pages.details.DetailsFragment">
+        android:name="com.example.flight_tracker.pages.details.FlightListFragment">
         <action
             android:id="@+id/openMaps"
             app:destination="@+id/mapsFragment" />

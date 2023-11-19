@@ -1,7 +1,6 @@
 package com.example.flight_tracker.pages.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.flight_tracker.databinding.FragmentDetailsBinding
+import com.example.flight_tracker.databinding.FragmentFlightListBinding
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
@@ -19,7 +18,7 @@ import kotlin.properties.Delegates
 /**
  * @author by Idricealy on 08/11/2023
  */
-class DetailsFragment : Fragment() {
+class FlightListFragment : Fragment() {
     companion object {
         const val ICAO = "icao"
         const val END_DATE = "endDate"
@@ -27,9 +26,9 @@ class DetailsFragment : Fragment() {
         const val IS_DEPARTURE = "isDeparture"
     }
 
-    private var TAG = DetailsFragment::class.java.simpleName
+    private var TAG = FlightListFragment::class.java.simpleName
 
-    private var _binding: FragmentDetailsBinding? = null
+    private var _binding: FragmentFlightListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: DetailsViewModel
     private lateinit var stringData : TextView
@@ -105,7 +104,7 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailsBinding.inflate(inflater,container, false)
+        _binding = FragmentFlightListBinding.inflate(inflater,container, false)
         return binding.root
     }
 
