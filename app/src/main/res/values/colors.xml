@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#00669F</color>
     <color name="secondary">#43C3D8</color>
+    <color name="flight_list_item_first_bar_bg">#4a8af7</color>
+    <color name="flight_list_item_second_bar_bg">#eff7fe</color>
+    <color name="flight_list_item_third_bar_bg">#ffffff</color>
+    <color name="flight_list_item_time_color">#5fa767</color>
+    <color name="flight_list_item_border_color">#e2e5ee</color>
 </resources>

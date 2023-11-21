@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/flight_item_background"
+    android:padding="10dp">
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@color/flight_list_item_first_bar_bg"
+        android:paddingHorizontal="5dp">
+
+        <TextView
+            android:id="@+id/textAirlineName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="AA 171 American Airlines"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textFlightStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="En Route"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textFlightDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="23 Nov 2021"
+        android:background="@color/flight_list_item_second_bar_bg"
+        android:paddingHorizontal="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@color/flight_list_item_third_bar_bg"
+        android:paddingHorizontal="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textDepartureCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New York" />
+
+            <TextView
+                android:id="@+id/textDepartureAirportInitials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JFK"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textDepartureTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="05:53"
+                android:textColor="@color/flight_list_item_time_color" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textFlightRouteArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=" ====>>>" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textArrivalCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Los Angeles" />
+
+            <TextView
+                android:id="@+id/textArrivalAirportInitials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LAX"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textArrivalTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="08:55"
+                android:textColor="@color/flight_list_item_time_color" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

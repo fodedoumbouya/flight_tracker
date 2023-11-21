@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.flight_tracker.FlightListAdapter
 import com.example.flight_tracker.databinding.FragmentFlightListBinding
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
@@ -64,6 +69,17 @@ class FlightListFragment : Fragment() {
 
         viewModel.flightsList().observe(viewLifecycleOwner) {
             flightsList.addAll(it)
+
+
+
+            val recyclerView: RecyclerView = binding.flightListRecyclerviewId
+            val adapter = FlightListAdapter(flightsList) { clickedFlight ->
+
+                val openMapsFragment = FlightListFragmentDirections.openMaps()
+                findNavController().navigate(openMapsFragment)
+            }
+            recyclerView.layoutManager = LinearLayoutManager(this.context)
+            recyclerView.adapter = adapter
         }
 
         // update UI depending on getFlights request
@@ -78,7 +94,7 @@ class FlightListFragment : Fragment() {
                     //don't forget to delete this string
                     // this thing is here just for example to display data
                     stringData.apply {
-                        visibility = View.VISIBLE
+                        visibility = View.GONE
                         text = it.toString()
                     }
                 }

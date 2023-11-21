@@ -14,6 +14,7 @@ import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import java.util.Locale
 
 /**
  * Created by sergio on 07/11/2021
@@ -202,6 +203,18 @@ class Utils private constructor() {
                     duration.append("0").append(minute).append("min").toString()
                 } else duration.append(minute).append("min").toString()
             }
+        }
+
+        fun convertirTimestampEnDate(timestamp: Long): Pair<String, String> {
+            val date = Date(timestamp * 1000L)
+
+            val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            val dateStr = dateFormat.format(date)
+
+            val timeFormat = SimpleDateFormat("HH:mm")
+            val timeStr = timeFormat.format(date)
+
+            return Pair(dateStr, timeStr)
         }
     }
 }
