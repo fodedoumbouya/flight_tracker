@@ -9,8 +9,11 @@ import com.example.flight_tracker.commom.Utils.Companion.convertirTimestampEnDat
 import com.example.flight_tracker.commom.Utils.Companion.timestampToString
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel // Remplacement de Flight par FlightModel
 
-class FlightListAdapter(private val flightList: List<FlightModel>, private val onItemClick: (FlightModel) -> Unit) : RecyclerView.Adapter<FlightListAdapter.FlightViewHolder>() {
+class FlightListAdapter(private val flightList: List<FlightModel>, val cellClickListener: OnCellClickListener) : RecyclerView.Adapter<FlightListAdapter.FlightViewHolder>() {
 
+    interface OnCellClickListener {
+        fun onCellClicked(flightModel: FlightModel)
+    }
     inner class FlightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textFlightName: TextView = itemView.findViewById(R.id.textAirlineName)
         val textAirline: TextView = itemView.findViewById(R.id.textFlightStatus)
@@ -27,7 +30,7 @@ class FlightListAdapter(private val flightList: List<FlightModel>, private val o
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedFlight = flightList[position]
-                    onItemClick(clickedFlight)
+                    cellClickListener.onCellClicked(clickedFlight)
                 }
             }
         }

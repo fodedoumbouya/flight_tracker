@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flight_tracker.FlightListActivity
 import com.example.flight_tracker.FlightListAdapter
 import com.example.flight_tracker.R
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
@@ -17,7 +16,7 @@ import com.example.flight_tracker.network.RequestListener
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
 import com.example.flight_tracker.viewModel.FlightListViewModel
 
-class FlightsListFragment : Fragment() {
+class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener {
     private lateinit var viewModel: FlightListViewModel
     private lateinit var progressBar : ProgressBar
     private lateinit var flightsList : MutableList<FlightModel>
@@ -49,14 +48,9 @@ class FlightsListFragment : Fragment() {
         viewModel.flightsList().observe(viewLifecycleOwner) {
             flightsList.addAll(it)
 
-
             val recyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.flight_list_recyclerview_id)
-            val adapter = FlightListAdapter(flightsList) { clickedFlight ->
-                viewModel.setClickedFlightLiveData(clickedFlight)
-                (requireActivity() as FlightListActivity).showMapFragment()
-            }
+            recyclerView.adapter = FlightListAdapter(it, this)
             recyclerView.layoutManager = LinearLayoutManager(this.context)
-            recyclerView.adapter = adapter
         }
 
         viewModel.flightsUiState().observe(viewLifecycleOwner) {
@@ -83,11 +77,15 @@ class FlightsListFragment : Fragment() {
         }
     }
 
+    override fun onCellClicked(flightModel: FlightModel) {
+        viewModel.setClickedFlightLiveData(flightModel)
+    }
+
 
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            FlightsListFragment().apply {
+            FlightListFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

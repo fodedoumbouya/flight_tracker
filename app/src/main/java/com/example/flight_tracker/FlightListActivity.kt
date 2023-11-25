@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.flight_tracker.databinding.ActivityFlightListBinding
-import com.example.flight_tracker.pages.flights.FlightsListFragment
+import com.example.flight_tracker.pages.flights.FlightListFragment
 import com.example.flight_tracker.pages.maps.FlightViewMapsFragment
 import com.example.flight_tracker.viewModel.FlightListViewModel
 
@@ -15,7 +15,7 @@ class FlightListActivity : AppCompatActivity() {
     private var isMapFragmentVisible = false
     private lateinit var viewModel : FlightListViewModel
     private lateinit var binding: ActivityFlightListBinding
-    private val flightsListFragment by lazy { FlightsListFragment() }
+    private val flightsListFragment by lazy { FlightListFragment() }
     private val flightViewMapsFragment by lazy { FlightViewMapsFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

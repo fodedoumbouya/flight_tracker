@@ -9,30 +9,8 @@
         android:name="com.example.flight_tracker.pages.home.HomeFragment"
         android:label="home_fragment" >
 
-        <action android:id="@+id/openListFlight"
-            app:destination="@+id/detailsFragment"/>
-
     </fragment>
-    <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.example.flight_tracker.pages.details.FlightListFragment">
-        <action
-            android:id="@+id/openMaps"
-            app:destination="@+id/mapsFragment" />
 
-        <argument
-            android:name="icao"
-            app:argType="string"/>
-        <argument
-            android:name="startDate"
-            app:argType="integer"/>
-        <argument
-            android:name="endDate"
-            app:argType="integer"/>
-        <argument
-            android:name="isDeparture"
-            app:argType="boolean"/>
-    </fragment>
 
     <fragment
         android:id="@+id/mapsFragment"
