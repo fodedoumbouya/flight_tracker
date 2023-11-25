@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +16,7 @@ import com.example.flight_tracker.databinding.FragmentFlightListBinding
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
-import com.example.flight_tracker.viewModel.DetailsViewModel
+import com.example.flight_tracker.viewModel.FlightListViewModel
 import kotlin.properties.Delegates
 
 /**
@@ -35,7 +34,7 @@ class FlightListFragment : Fragment() {
 
     private var _binding: FragmentFlightListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: DetailsViewModel
+    private lateinit var viewModel: FlightListViewModel
     private lateinit var stringData : TextView
     private lateinit var progressBar : ProgressBar
     private lateinit var icao : String
@@ -56,7 +55,7 @@ class FlightListFragment : Fragment() {
         }
     }
     private fun init() {
-        viewModel = ViewModelProvider(requireActivity()).get(DetailsViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
         stringData = binding.stringData
         progressBar = binding.progressBarDetails
         viewModel.flightsUiState().value = RequestListener.Loading("Loading...")

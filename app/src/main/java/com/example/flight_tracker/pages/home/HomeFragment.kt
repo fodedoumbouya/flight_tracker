@@ -1,5 +1,6 @@
 package com.example.flight_tracker.pages.home
 
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.flight_tracker.FlightListActivity
 import com.example.flight_tracker.models.openSkyApiModels.AirportModel
 import com.example.flight_tracker.R
 import com.example.flight_tracker.commom.Utils
@@ -127,14 +129,26 @@ class HomeFragment : Fragment(){
         btnValidate.setOnClickListener {
 
             if(isDataCompleted()){
-                val openDetailsFragment = HomeFragmentDirections.openListFlight(
-                    viewModel.airport().value?.icao.toString(),
-                    (viewModel.startDate().value?.timeInMillis!! / 1000).toInt(),
-                    (viewModel.endDate().value?.timeInMillis!! / 1000).toInt(),
-                    viewModel.isChecked().value!!
-                )
 
-                findNavController().navigate(openDetailsFragment)
+
+                val intent = Intent(requireActivity(), FlightListActivity::class.java)
+
+                val endDate = (viewModel.endDate().value?.timeInMillis!! / 1000).toInt()
+                val icao = viewModel.airport().value?.icao.toString()
+                val startDate = (viewModel.startDate().value?.timeInMillis!! / 1000).toInt()
+                val isDeparture = viewModel.isChecked().value!!
+
+
+                intent.putExtra("ICAO", icao)
+                intent.putExtra("END_DATE", endDate)
+                intent.putExtra("START_DATE", startDate)
+                intent.putExtra("IS_DEPARTURE", isDeparture)
+
+
+
+                startActivity(intent)
+
+
             } else {
                 DialogFragmentCustom(true,"Please fill all input to search your flight", "Cancel").show(
                     parentFragmentManager, "DialogFragmentErrorLoad"

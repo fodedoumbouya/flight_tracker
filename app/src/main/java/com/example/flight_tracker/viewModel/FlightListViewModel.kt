@@ -1,5 +1,6 @@
 package com.example.flight_tracker.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,9 +16,10 @@ import kotlinx.coroutines.withContext
 /**
  * @author by Idricealy on 08/11/2023
  */
-class DetailsViewModel : ViewModel() {
+class FlightListViewModel : ViewModel() {
     private var _flightsUiState = MutableLiveData<RequestListener<String>>()
     private var _flightsList = MutableLiveData<List<FlightModel>>()
+    private var clickedFlightLiveData = MutableLiveData<FlightModel?>()
 
     fun flightsList() : MutableLiveData<List<FlightModel>> {
         return _flightsList
@@ -30,6 +32,18 @@ class DetailsViewModel : ViewModel() {
 
     fun stringData() : MutableLiveData<String> {
         return _stringData
+    }
+
+    fun getClickedFlightLiveData(): MutableLiveData<FlightModel?> {
+        return clickedFlightLiveData
+    }
+
+    fun setClickedFlightLiveData(flight: FlightModel) {
+        clickedFlightLiveData.value = flight
+    }
+
+    fun resetClickedFlightLiveData() {
+        clickedFlightLiveData.value = null
     }
 
     fun getFlights(icao : String, startDate : Int, endDate: Int, isChecked : Boolean)  {
