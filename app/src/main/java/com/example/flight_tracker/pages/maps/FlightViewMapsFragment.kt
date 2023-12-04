@@ -58,10 +58,10 @@ class FlightViewMapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
-        viewModel.getClickedFlightLiveData().observe(viewLifecycleOwner) {
-
-            Log.d("Test", it.toString());
-        }
+//        viewModel.getClickedFlightLiveData().observe(viewLifecycleOwner) {
+//
+//            Log.d("Test", it.toString());
+//        }
 
     }
 
