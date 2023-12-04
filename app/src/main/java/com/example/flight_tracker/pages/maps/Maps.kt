@@ -11,6 +11,7 @@ import android.widget.Button
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import com.example.flight_tracker.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mapbox.geojson.LineString
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
@@ -59,6 +60,20 @@ class Maps : Fragment() {
             ) {
                 // Linking Zoom Button to the maps
                 zoomButtons(mapboxMap,view)
+
+                // initializing our variable for button with its id.
+               val btnShowBottomSheet = view.findViewById<Button>(R.id.details);
+                // Set up a click listener for the details in button
+                btnShowBottomSheet.setOnClickListener {
+                    Log.d("","Tap on detail==================")
+                    // Create and show the BottomSheetDialog
+                    val bottomSheetDialog = BottomSheetDialog(requireContext())
+                    val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null) // Replace 'your_bottom_sheet_layout' with the actual layout file for your bottom sheet
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                }
+
 
                 // Maps Config
                 mapsConfigCenterZoom(mapboxMap)
