@@ -23,9 +23,6 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
     }
 
     override fun onCreateView(
@@ -45,7 +42,7 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener {
 
         viewModel.flightsUiState().value = RequestListener.Loading("Loading...")
 
-        viewModel.flightsList().observe(viewLifecycleOwner) {
+        viewModel.flightsList().observe(requireActivity()) {
             flightsList.addAll(it)
 
             val recyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.flight_list_recyclerview_id)
@@ -53,7 +50,7 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener {
             recyclerView.layoutManager = LinearLayoutManager(this.context)
         }
 
-        viewModel.flightsUiState().observe(viewLifecycleOwner) {
+        viewModel.flightsUiState().observe(requireActivity()) {
             when(it) {
                 is RequestListener.Loading -> {
                     progressBar.visibility = View.VISIBLE
@@ -79,15 +76,5 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener {
 
     override fun onCellClicked(flightModel: FlightModel) {
         viewModel.setClickedFlightLiveData(flightModel)
-    }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FlightListFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }

@@ -23,8 +23,7 @@ class FlightListActivity : AppCompatActivity() {
         binding = ActivityFlightListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         isLargeScreen = findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
-        val fragmentManager = supportFragmentManager
-        val fragmentLittleScreen = fragmentManager.findFragmentById(R.id.fragment_list_container)
+        val fragmentLittleScreen = supportFragmentManager.findFragmentById(R.id.fragment_list_container)
         isMapFragmentVisible = fragmentLittleScreen is FlightViewMapsFragment
 
         if (isLargeScreen) {
