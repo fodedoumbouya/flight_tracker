@@ -28,12 +28,29 @@ object DataManager {
         }
     }
 
-    fun getFlightsPosition(
+    fun getFlightsTrackPosition(
     icao24: String,
 
     ): RequestListener<*> {
 
         return when(val requestListener = OpenSkiApiService.getFlightsPosition(icao24)) {
+            // If response API is 500, we use sample data
+            is RequestListener.Error -> {
+                RequestListener.Success<String>(Utils.assetsJsonFileToJsonObject("flight.json").toString())
+            }
+
+            else -> {
+                requestListener
+            }
+        }
+    }
+
+    fun getFlightsPositionLive(
+        icao24: String,
+
+        ): RequestListener<*> {
+
+        return when(val requestListener = OpenSkiApiService.getFlightsPositionLive(icao24)) {
             // If response API is 500, we use sample data
             is RequestListener.Error -> {
                 RequestListener.Success<String>(Utils.assetsJsonFileToJsonObject("flight.json").toString())

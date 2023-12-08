@@ -9,7 +9,7 @@ object OpenSkiApiService {
     private const val BASE_URL = "https://opensky-network.org/api"
     private const val DEPARTURE_URL = "/flights/departure"
     private const val ARRIVAL_URL = "/flights/arrival"
-    private const val  TRACKS_URL = "/tracks/all"
+    private const val TRACKS_URL = "/tracks/all"
 
     fun getFlights(
         airport: String,
@@ -34,6 +34,21 @@ object OpenSkiApiService {
         icao24: String,
 
     ): RequestListener<*> {
+        val paramsList = mutableMapOf<String, Any>()
+        val departureOrArrivalUrl = TRACKS_URL
+
+        paramsList.put("icao24", icao24)
+
+        return RequestManager.get(
+            BASE_URL + departureOrArrivalUrl,
+            paramsList,
+        )
+    }
+
+    fun getFlightsPositionLive(
+        icao24: String,
+
+        ): RequestListener<*> {
         val paramsList = mutableMapOf<String, Any>()
         val departureOrArrivalUrl = TRACKS_URL
 

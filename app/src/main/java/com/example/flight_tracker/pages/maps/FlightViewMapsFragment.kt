@@ -20,6 +20,7 @@ import com.mapbox.geojson.LineString
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.IconFactory
+import com.mapbox.mapboxsdk.annotations.Marker
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -31,6 +32,7 @@ import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.UpdateDataListener {
     private var mapView: MapView? = null
@@ -42,6 +44,8 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
     private lateinit var mapboxMap: MapboxMap
     private lateinit var  flightInfo: FlightModel
     private var bottomSheetFragment: FlightDetailsBottomSheetFragment? = null
+    // Maintain a list to keep track of added markers
+    private val markersList = mutableListOf<Marker>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +88,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             flightTracking  = it
             /// getting all the lat log from the data
 
-//            Log.d("flightTracking",flightTracking.toString())
+            Log.d("flightTracking",flightTracking.toString())
 
             postionFlight = mutableListOf()
             for (pos in flightTracking.path) {
@@ -105,6 +109,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             // Maps Config
 //
             /// sending to the maps
+
             createLine(mapboxMap, postionFlight,"line-layer", "line-source")
 
             var from = postionFlight.first()
@@ -112,10 +117,11 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             var departure = flightInfo.estDepartureAirport
             var arrival = flightInfo.estArrivalAirport
             var flightName = flightInfo.callsign
+            removeAllMarkers()
 
             // Add two airports as markers
-            createMarker( mapboxMap, "Departure: $departure", "Flight: $flightName",from,null)
-            createMarker( mapboxMap,"Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
+            createMarker( "Departure: $departure", "Flight: $flightName",from,null)
+            createMarker( "Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
         }
     }
 
@@ -156,6 +162,8 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
         // Create a LineLayer with the LineString
         val lineLayer = LineLayer(layerId, sourceId)
+        mapboxMap.style?.removeSource(sourceId)
+        mapboxMap.style?.removeLayer(layerId)
         lineLayer.setProperties(
             PropertyFactory.lineDasharray(arrayOf(0.01f, 2f)),
             PropertyFactory.lineCap(com.mapbox.mapboxsdk.style.layers.Property.LINE_CAP_ROUND),
@@ -163,33 +171,69 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             PropertyFactory.lineWidth(4f),
             PropertyFactory.lineColor(Color.parseColor("#e55e5e"))
         )
-
+    if (mapboxMap.style?.getSource(sourceId) == null && mapboxMap.style?.getLayer(layerId) == null){
         // Add the LineLayer to the map
         mapboxMap.style?.addSource(GeoJsonSource(sourceId, lineString))
         mapboxMap.style?.addLayer(lineLayer)
-
         /// center the camera
-        mapsConfigCenterZoom(mapboxMap,routes)
+        mapsConfigCenterZoom(routes,null)
     }
-    private fun createMarker(mapboxMap: MapboxMap, title: String, subTitle: String, position : LatLng, iconData: Int?) {
-        // Create a custom icon from the drawable resource
-        if (iconData == null){
-            mapboxMap.addMarker( MarkerOptions()
+
+    }
+//    private fun createMarker(mapboxMap: MapboxMap, title: String, subTitle: String, position : LatLng, iconData: Int?) {
+//        // Create a custom icon from the drawable resource
+//        if (iconData == null){
+//            var marker = MarkerOptions()
+//                .position(position)
+//                .title(title)
+//                .snippet(subTitle)
+//            markersList.add(marker)
+//            mapboxMap.addMarker(marker);
+//        }else{
+//            val customIcon =
+//                IconFactory.getInstance(requireContext()).fromResource(iconData)
+//                var marker = MarkerOptions()
+//                    .position(position)
+//                    .title(title)
+//                    .icon(customIcon)
+//                    .snippet(subTitle)
+//            markersList.add(marker)
+//            mapboxMap.addMarker( marker);
+//        }
+//
+//
+//    }
+
+    private fun createMarker(
+        title: String,
+        subTitle: String,
+        position: LatLng,
+        iconData: Int?
+    ) {
+
+        val markerOptions = if (iconData == null) {
+            MarkerOptions()
                 .position(position)
                 .title(title)
-                .snippet(subTitle));
-        }else{
-            val customIcon =
-                IconFactory.getInstance(requireContext()).fromResource(iconData)
-
-            mapboxMap.addMarker( MarkerOptions()
+                .snippet(subTitle)
+        } else {
+            val customIcon = IconFactory.getInstance(requireContext()).fromResource(iconData)
+            MarkerOptions()
                 .position(position)
                 .title(title)
                 .icon(customIcon)
-                .snippet(subTitle));
+                .snippet(subTitle)
         }
 
+        val marker = mapboxMap.addMarker(markerOptions)
+        markersList.add(marker)
+    }
 
+    private fun removeAllMarkers() {
+        for (marker in markersList) {
+            marker.remove()
+        }
+        markersList.clear()
     }
 
     private fun detailsView(view: View){
@@ -199,10 +243,11 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
 //            val bottomSheetFragment = FlightDetailsBottomSheetFragment()
             // Assuming flight details are available in your viewModel or other source
-            val flightNumber = "XYZ123"
-            val departure = "City DDD"
-            val destination = "City B"
-            showBottomSheet(flightNumber,departure,destination)
+
+            var departure = flightInfo.estDepartureAirport
+            var arrival = flightInfo.estArrivalAirport
+            var flightName = flightInfo.callsign
+            showBottomSheet(flightName,departure,arrival)
 
             // Call the method in FlightDetailsBottomSheetFragment to update TextViews=
 //            view.findViewById<TextView>(R.id.textDeparture)?.text = flightNumber
@@ -228,16 +273,17 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
     }
 
-    private fun mapsConfigCenterZoom(mapboxMap: MapboxMap, targets: List<LatLng>) {
+    private fun mapsConfigCenterZoom(targets: List<LatLng>, newZoom: Double? ) {
         // Ensure the list is not empty before processing
         if (targets.isNotEmpty()) {
             // Calculate the center of the LatLng objects in the list
             val centerLatLng = calculateCenter(targets)
 
             // Set the initial map center and zoom level
+           var cameraZoom = if (newZoom == null) zoom else newZoom
             val cameraPosition = CameraPosition.Builder()
                 .target(centerLatLng)
-                .zoom(zoom) // Replace 'zoom' with the desired zoom level
+                .zoom(cameraZoom) // Replace 'zoom' with the desired zoom level
                 .build()
 
             mapboxMap.cameraPosition = cameraPosition
@@ -274,11 +320,58 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         if(isLiveClicked){
             bottomSheetFragment?.updateValues(flightNumber, "Paris","0", true)
 
+            getLiveData()
+
         }else{
             bottomSheetFragment?.updateValues(flightNumber, departure,destination, false)
-
+            viewTrackingModel.getFlights(flightInfo.icao24)
         }
     }
+    private fun getLiveData(){
+        viewTrackingModel.getFlightsLivePosition(flightInfo.icao24)
+        viewTrackingModel.flightLiveData().observe(requireActivity()) {
+            Log.d("Live Data", it.toString())
+            var resp: FlightData = it
+            var pos = resp.path.last()
+            val latitude = pos[1].toString().toDoubleOrNull() // Parse latitude to Double or null if parsing fails
+            val longitude = pos[2].toString().toDoubleOrNull() // Parse longitude to Double or null if parsing fails
+            val speed = pos[3].toString()
+            val flightName = resp.callsign.toString()
+           showLivePlan(LatLng(latitude!!, longitude!!), speed, flightName)
+        }
+
+    }
+
+    private fun  showLivePlan(position: LatLng, speed: String, flightName: String){
+        removeLine("line-layer", "line-source")
+        removeAllMarkers()
+        createMarker( "Flight: $flightName", "Speed: $speed",position,R.drawable.airplane)
+        mapsConfigCenterZoom(listOf(position),   Random.nextDouble(3.0, 6.0))
+    }
+
+
+    private fun removeLine( layerId: String, sourceId: String) {
+        val style = mapboxMap.style
+        if (style != null) {
+            val layersToRemove = mutableListOf<String>()
+
+            // Find and collect all layer IDs associated with the given source ID
+            for (layer in style.layers) {
+                if (layer.id == layerId) {
+                    layersToRemove.add(layer.id)
+                }
+            }
+
+            // Remove collected layers associated with the source
+            for (layerIdToRemove in layersToRemove) {
+                style.removeLayer(layerIdToRemove)
+            }
+
+            // Remove the source
+            style.removeSource(sourceId)
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         mapView?.onStart()

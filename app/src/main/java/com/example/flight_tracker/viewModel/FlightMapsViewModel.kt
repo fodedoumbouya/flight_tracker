@@ -12,19 +12,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.util.Log
+import com.mapbox.mapboxsdk.geometry.LatLng
 
 class FlightMapsViewModel : ViewModel() {
 
     private var _flightsListTracking = MutableLiveData<FlightData>()
     private var _flightsUiState = MutableLiveData<RequestListener<String>>()
+    private var _flightsPosition = MutableLiveData<FlightData>()
+
 
     fun flightTracking() : MutableLiveData<FlightData> {
         return _flightsListTracking
     }
+
+    fun flightLiveData() :MutableLiveData<FlightData> {
+        return _flightsPosition
+    }
     fun getFlights(icao : String)  {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = DataManager.getFlightsPosition(
+                val result = DataManager.getFlightsTrackPosition(
                     icao)
 
                 when(result) {
@@ -35,6 +42,32 @@ class FlightMapsViewModel : ViewModel() {
                         Log.d("message",result.data.toString())
                         _flightsUiState.postValue(RequestListener.Success(result.data))
                         _flightsListTracking.postValue(requestResponseToList(result.data))
+                    }
+                    is RequestListener.Error -> {
+                        _flightsUiState.postValue(RequestListener.Error(result.exception))
+                    }
+                    is RequestListener.Failed -> {
+                        _flightsUiState.postValue(RequestListener.Failed(result.message))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getFlightsLivePosition(icao : String)  {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val result = DataManager.getFlightsPositionLive(
+                    icao)
+
+                when(result) {
+                    is RequestListener.Loading<*> -> {
+
+                    }
+                    is RequestListener.Success<*> -> {
+                        _flightsUiState.postValue(RequestListener.Success(result.data))
+                        _flightsPosition.postValue(requestResponseToList(result.data))
+
                     }
                     is RequestListener.Error -> {
                         _flightsUiState.postValue(RequestListener.Error(result.exception))
