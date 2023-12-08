@@ -1,7 +1,6 @@
 package com.example.flight_tracker.pages.home
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,11 +11,9 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.flight_tracker.FlightListActivity
 import com.example.flight_tracker.models.openSkyApiModels.AirportModel
 import com.example.flight_tracker.R
@@ -28,7 +25,7 @@ import com.example.flight_tracker.viewModel.FlightTrackViewModel
 /**
  * @author by Idricealy on 05/11/2023
  */
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment(), DialogFragmentCustom.CustomDialogListener {
     //Layout xml automatically bind
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -149,8 +146,8 @@ class HomeFragment : Fragment(){
                 startActivity(intent)
 
 
-            } else {
-                DialogFragmentCustom(true,"Please fill all input to search your flight", "Cancel").show(
+            } else if (isAdded && parentFragmentManager != null){
+                DialogFragmentCustom("Please fill all input to search your flight", "Ok, I get it", this).show(
                     parentFragmentManager, "DialogFragmentErrorLoad"
                 )
             }
@@ -183,5 +180,10 @@ class HomeFragment : Fragment(){
             airportAutoCompleteTextView.isEnabled = false
             btnEditAirport.visibility = View.VISIBLE
         }
+    }
+
+
+    override fun onNegativeButtonClickDialogFragment() {
+
     }
 }

@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flight_tracker.FlightListAdapter
 import com.example.flight_tracker.R
+import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
 import com.example.flight_tracker.viewModel.FlightListViewModel
 import com.mapbox.geojson.LineString
 import com.mapbox.geojson.Point
@@ -29,7 +32,7 @@ import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
-class FlightViewMapsFragment : Fragment() {
+class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogListener {
     private var mapView: MapView? = null
     private var zoom:Double = 4.0
     private lateinit var viewModel: FlightListViewModel
@@ -205,5 +208,21 @@ class FlightViewMapsFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView?.onSaveInstanceState(outState)
+    }
+
+    override fun onNegativeButtonClickDialogFragment() {
+        TODO("Fode, it's up to you to implement this function")
+        val activity = activity
+
+        if (activity != null && activity is AppCompatActivity) {
+            val isLargeScreen = activity.findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
+            if(isLargeScreen){
+                Log.d("Action", "En mode écran large")
+            }else{
+                Log.d("Action", "En mode petit écran")
+            }
+
+        }
+
     }
 }
