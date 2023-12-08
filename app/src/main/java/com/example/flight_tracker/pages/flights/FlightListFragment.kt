@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flight_tracker.FlightListAdapter
 import com.example.flight_tracker.R
+import com.example.flight_tracker.commom.Utils
+import com.example.flight_tracker.models.openSkyApiModels.AirportModel
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
 import com.example.flight_tracker.network.RequestListener
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
@@ -49,7 +51,8 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener, Di
             flightsList.addAll(it)
 
             val recyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.flight_list_recyclerview_id)
-            recyclerView.adapter = FlightListAdapter(it, this)
+            val airportMap: Map<String, AirportModel> = Utils.generateAirportList().toTypedArray().associateBy { it.icao }
+            recyclerView.adapter = FlightListAdapter(it, airportMap,this )
             recyclerView.layoutManager = LinearLayoutManager(this.context)
         }
 
