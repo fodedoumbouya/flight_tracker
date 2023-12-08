@@ -6,6 +6,7 @@ import com.example.flight_tracker.FlightApplication
 import com.example.flight_tracker.models.openSkyApiModels.AirportModel
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.apache.commons.io.IOUtils
 import org.json.JSONArray
@@ -57,6 +58,14 @@ class Utils private constructor() {
             val parser = JsonParser()
             val jsonElement = parser.parse(getTextFromStream(input))
             return jsonElement.asJsonArray
+        }
+
+        fun assetsJsonFileToJsonObject(fileName: String) : JsonObject {
+            var input: InputStream?
+            input = FlightApplication.appAssetManager.open(fileName)
+            val parser = JsonParser()
+            val jsonElement = parser.parse(getTextFromStream(input))
+            return jsonElement.asJsonObject
         }
 
         fun getText(filename: String): String? {

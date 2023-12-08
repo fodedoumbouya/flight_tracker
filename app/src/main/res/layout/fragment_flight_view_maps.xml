@@ -12,10 +12,22 @@
         android:layout_height="match_parent"
 
         >
+        <LinearLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:orientation="horizontal">
+
+            <!-- Add content to the Bottom Sheet -->
+
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
 
             <Button

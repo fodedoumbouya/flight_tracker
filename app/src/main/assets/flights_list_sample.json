@@ -4,6 +4,7 @@
     "estDepartureAirport": "LFBO",
     "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
+    "firstSeen": 1572285820,
     "callsign": "AFR42RK",
     "estDepartureAirportHorizDistance": 1050,
     "estArrivalAirportHorizDistance": 2001,

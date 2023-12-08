@@ -27,4 +27,21 @@ object DataManager {
             }
         }
     }
+
+    fun getFlightsPosition(
+    icao24: String,
+
+    ): RequestListener<*> {
+
+        return when(val requestListener = OpenSkiApiService.getFlightsPosition(icao24)) {
+            // If response API is 500, we use sample data
+            is RequestListener.Error -> {
+                RequestListener.Success<String>(Utils.assetsJsonFileToJsonObject("flight.json").toString())
+            }
+
+            else -> {
+                requestListener
+            }
+        }
+    }
 }

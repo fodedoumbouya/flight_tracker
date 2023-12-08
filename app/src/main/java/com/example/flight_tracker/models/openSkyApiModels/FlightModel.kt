@@ -1,10 +1,8 @@
 package com.example.flight_tracker.models.openSkyApiModels
 
-/**
- * Created by sergio on 07/11/2021
- * All rights reserved GoodBarber
- */
-data class FlightModel (val icao24: String,
+
+data class FlightModel (
+    val icao24: String,
                         val firstSeen: Long,
                         val estDepartureAirport: String,
                         val lastSeen: Long,
@@ -15,4 +13,5 @@ data class FlightModel (val icao24: String,
                         val estArrivalAirportHorizDistance: Int,
                         val estArrivalAirportVertDistance: Int,
                         val departureAirportCandidatesCount: Int,
-                        val arrivalAirportCandidatesCount: Int)
+                        val arrivalAirportCandidatesCount: Int
+)

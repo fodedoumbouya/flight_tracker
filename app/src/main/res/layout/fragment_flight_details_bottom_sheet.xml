@@ -1,0 +1,48 @@
+<!-- fragment_flight_details_bottom_sheet.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500sp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Add your content for flight details here -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Flight Details"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Example content (Replace with your own) -->
+    <TextView
+        android:id="@+id/textFlightNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Flight number: "
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/textDeparture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Departure: "
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/textDestination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Destination:"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/liveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Live" />
+
+    <!-- Add more details or buttons as needed -->
+
+</LinearLayout>
