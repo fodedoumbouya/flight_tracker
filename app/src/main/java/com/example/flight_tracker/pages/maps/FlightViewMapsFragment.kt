@@ -37,6 +37,7 @@ import kotlin.random.Random
 class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.UpdateDataListener {
     private var mapView: MapView? = null
     private var zoom:Double = 2.0
+    private var isBottomSheetLiveState:Boolean =false
     private lateinit var viewModel: FlightListViewModel
     private lateinit var viewTrackingModel: FlightMapsViewModel
     private lateinit var flightTracking : FlightData
@@ -76,19 +77,19 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         viewTrackingModel = ViewModelProvider(requireActivity()).get(FlightMapsViewModel::class.java)
         viewModel.getClickedFlightLiveData().observe(requireActivity()) {
 
-            Log.d("Test", it.toString());
+//            Log.d("Test", it.toString());
             flightInfo = it!!
             if (it?.icao24 != null){
                 viewTrackingModel.getFlights(it.icao24)
             }
 
         }
-        viewTrackingModel.flightTracking().observe(requireActivity()) {
+        viewTrackingModel.flightTracking().observe(requireActivity()) { it ->
             // getting the flight track data
             flightTracking  = it
             /// getting all the lat log from the data
 
-            Log.d("flightTracking",flightTracking.toString())
+//            Log.d("flightTracking",flightTracking.toString())
 
             postionFlight = mutableListOf()
             for (pos in flightTracking.path) {
@@ -106,22 +107,26 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
                     }
                 }
             }
+
+
             // Maps Config
-//
-            /// sending to the maps
 
-            createLine(mapboxMap, postionFlight,"line-layer", "line-source")
+            // Ensure that mapboxMap is initialized before using it
+            if (::mapboxMap.isInitialized) {
+                /// sending to the maps
+                createLine(mapboxMap, postionFlight,"line-layer", "line-source")
 
-            var from = postionFlight.first()
-            var to = postionFlight.last()
-            var departure = flightInfo.estDepartureAirport
-            var arrival = flightInfo.estArrivalAirport
-            var flightName = flightInfo.callsign
-            removeAllMarkers()
+                var from = postionFlight.first()
+                var to = postionFlight.last()
+                var departure = flightInfo.estDepartureAirport
+                var arrival = flightInfo.estArrivalAirport
+                var flightName = flightInfo.callsign
+                removeAllMarkers()
 
-            // Add two airports as markers
-            createMarker( "Departure: $departure", "Flight: $flightName",from,null)
-            createMarker( "Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
+                // Add two airports as markers
+                createMarker( "Departure: $departure", "Flight: $flightName",from,null)
+                createMarker( "Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
+            }
         }
     }
 
@@ -130,10 +135,10 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         // mapping the maps to the maps layout inside the fragment_maps
         mapView = view.findViewById(R.id.mapView)
         // Config
-        mapView?.onCreate(savedInstanceState)
-        mapView?.getMapAsync { mapboxMa ->
+        mapView!!.onCreate(savedInstanceState)
+        mapView!!.getMapAsync { mapboxMa ->
             // mapboxMap.setStyle(Style.MAPBOX_STREETS) {
-            mapboxMap = mapboxMa
+            this.mapboxMap = mapboxMa
             mapboxMap.setStyle(
                 Style.Builder()
                     .fromUri(getString(R.string.mapbox_style_url))
@@ -162,8 +167,8 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
         // Create a LineLayer with the LineString
         val lineLayer = LineLayer(layerId, sourceId)
-        mapboxMap.style?.removeSource(sourceId)
-        mapboxMap.style?.removeLayer(layerId)
+//        mapboxMap.style!!.removeSource(sourceId)
+//        mapboxMap.style!!.removeLayer(layerId)
         lineLayer.setProperties(
             PropertyFactory.lineDasharray(arrayOf(0.01f, 2f)),
             PropertyFactory.lineCap(com.mapbox.mapboxsdk.style.layers.Property.LINE_CAP_ROUND),
@@ -171,39 +176,17 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             PropertyFactory.lineWidth(4f),
             PropertyFactory.lineColor(Color.parseColor("#e55e5e"))
         )
-    if (mapboxMap.style?.getSource(sourceId) == null && mapboxMap.style?.getLayer(layerId) == null){
+    if (mapboxMap.style!!.getSource(sourceId) == null && mapboxMap.style!!.getLayer(layerId) == null){
         // Add the LineLayer to the map
-        mapboxMap.style?.addSource(GeoJsonSource(sourceId, lineString))
-        mapboxMap.style?.addLayer(lineLayer)
+        mapboxMap.style!!.addSource(GeoJsonSource(sourceId, lineString))
+        mapboxMap.style!!.addLayer(lineLayer)
         /// center the camera
         mapsConfigCenterZoom(routes,null)
     }
 
     }
-//    private fun createMarker(mapboxMap: MapboxMap, title: String, subTitle: String, position : LatLng, iconData: Int?) {
-//        // Create a custom icon from the drawable resource
-//        if (iconData == null){
-//            var marker = MarkerOptions()
-//                .position(position)
-//                .title(title)
-//                .snippet(subTitle)
-//            markersList.add(marker)
-//            mapboxMap.addMarker(marker);
-//        }else{
-//            val customIcon =
-//                IconFactory.getInstance(requireContext()).fromResource(iconData)
-//                var marker = MarkerOptions()
-//                    .position(position)
-//                    .title(title)
-//                    .icon(customIcon)
-//                    .snippet(subTitle)
-//            markersList.add(marker)
-//            mapboxMap.addMarker( marker);
-//        }
-//
-//
-//    }
 
+    // La fonction qui creer du marker sur la maps
     private fun createMarker(
         title: String,
         subTitle: String,
@@ -211,8 +194,9 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         iconData: Int?
     ) {
 
+
         val markerOptions = if (iconData == null) {
-            MarkerOptions()
+             MarkerOptions()
                 .position(position)
                 .title(title)
                 .snippet(subTitle)
@@ -236,23 +220,18 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         markersList.clear()
     }
 
+    /// detail bottun
     private fun detailsView(view: View){
         var detailsButton = view.findViewById<Button>(R.id.details)
 
         detailsButton.setOnClickListener {
-
-//            val bottomSheetFragment = FlightDetailsBottomSheetFragment()
             // Assuming flight details are available in your viewModel or other source
 
             var departure = flightInfo.estDepartureAirport
             var arrival = flightInfo.estArrivalAirport
             var flightName = flightInfo.callsign
+            // show the bottom sheet
             showBottomSheet(flightName,departure,arrival)
-
-            // Call the method in FlightDetailsBottomSheetFragment to update TextViews=
-//            view.findViewById<TextView>(R.id.textDeparture)?.text = flightNumber
-//            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-//            bottomSheetFragment.updateFlightDetails(flightNumber, departure, destination)
 
         }
     }
@@ -273,6 +252,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
     }
 
+    /// The function who center the maps on the list of coordinates you gave to it
     private fun mapsConfigCenterZoom(targets: List<LatLng>, newZoom: Double? ) {
         // Ensure the list is not empty before processing
         if (targets.isNotEmpty()) {
@@ -290,6 +270,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         }
     }
 
+    /// get the medium of a list of coordinates
     private fun calculateCenter(targets: List<LatLng>): LatLng {
         var totalLat = 0.0
         var totalLng = 0.0
@@ -309,47 +290,59 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
 
 
+    /// the function to show the botton sheet
     private fun showBottomSheet(flightNumber: String,departure: String, destination: String) {
-        val fragment = FlightDetailsBottomSheetFragment.newInstance(flightNumber, departure, destination)
+        val fragment = FlightDetailsBottomSheetFragment.newInstance(flightNumber, departure, destination, isBottomSheetLiveState)
         fragment.setUpdateDataListener(this)
         bottomSheetFragment = fragment
         bottomSheetFragment?.show(parentFragmentManager, fragment.tag)
     }
 
+    /// the call back when user tap on the "[Info]" or "[Live]" on the button sheet
     override fun onUpdateButtonClicked(flightNumber: String,departure: String,destination: String , isLiveClicked: Boolean) {
         if(isLiveClicked){
-            bottomSheetFragment?.updateValues(flightNumber, "Paris","0", true)
 
             getLiveData()
+            isBottomSheetLiveState = true
 
         }else{
             bottomSheetFragment?.updateValues(flightNumber, departure,destination, false)
             viewTrackingModel.getFlights(flightInfo.icao24)
+            isBottomSheetLiveState = false
+
         }
     }
     private fun getLiveData(){
         viewTrackingModel.getFlightsLivePosition(flightInfo.icao24)
-        viewTrackingModel.flightLiveData().observe(requireActivity()) {
-            Log.d("Live Data", it.toString())
+        viewTrackingModel.flightLiveData().observe(requireActivity()) { it ->
+//            Log.d("Live Data", it.toString())
+
             var resp: FlightData = it
+
+            /// get the position for the marker
             var pos = resp.path.last()
             val latitude = pos[1].toString().toDoubleOrNull() // Parse latitude to Double or null if parsing fails
             val longitude = pos[2].toString().toDoubleOrNull() // Parse longitude to Double or null if parsing fails
-            val speed = pos[3].toString()
+            val speed = "0"
             val flightName = resp.callsign.toString()
+            /// update the button sheet view but as the api is not working and I don't have the model of the return so I just took the flight last destination for only the destination name
+            bottomSheetFragment?.updateValues(resp.callsign.toString(), flightInfo.estArrivalAirport,speed, true)
+
+            // show the plan on the map
            showLivePlan(LatLng(latitude!!, longitude!!), speed, flightName)
         }
 
     }
 
+    /// function to add the plan on the map
     private fun  showLivePlan(position: LatLng, speed: String, flightName: String){
         removeLine("line-layer", "line-source")
         removeAllMarkers()
-        createMarker( "Flight: $flightName", "Speed: $speed",position,R.drawable.airplane)
-        mapsConfigCenterZoom(listOf(position),   Random.nextDouble(3.0, 6.0))
+        createMarker( "Flight: $flightName", "Speed: $speed",position,R.drawable.airplan27)//R.drawable.airplane
+        mapsConfigCenterZoom(listOf(position),   6.0)
     }
 
-
+    // remove all the line on the map
     private fun removeLine( layerId: String, sourceId: String) {
         val style = mapboxMap.style
         if (style != null) {

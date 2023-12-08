@@ -21,27 +21,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Flight number: "
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textDeparture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Departure: "
-        android:textSize="20sp"/>
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/textDestination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Destination:"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
 
     <Button
         android:id="@+id/liveButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Live" />
+        android:layout_height="68dp"
+        android:text="Live"
+        android:textSize="24sp" />
 
     <!-- Add more details or buttons as needed -->
 

@@ -49,15 +49,18 @@ class FlightDetailsBottomSheetFragment : BottomSheetDialogFragment() {
         private const val ARG_FLIGHT_NUMBER = "flightNumber"
         private const val ARG_DEPARTURE = "departure"
         private const val ARG_DESTINATION = "destination"
+        private const val ARG_IS_LIVE = "isLive"
 
 
 
-        fun newInstance(flightNumber: String, departure: String, destination: String): FlightDetailsBottomSheetFragment {
+
+        fun newInstance(flightNumber: String, departure: String, destination: String, isBottomSheetLiveState: Boolean): FlightDetailsBottomSheetFragment {
             val fragment = FlightDetailsBottomSheetFragment()
             val args = Bundle()
             args.putString(ARG_FLIGHT_NUMBER, flightNumber)
             args.putString(ARG_DEPARTURE, departure)
             args.putString(ARG_DESTINATION, destination)
+            args.putBoolean(ARG_IS_LIVE, isBottomSheetLiveState)
             fragment.arguments = args
             return fragment
         }
@@ -80,6 +83,8 @@ class FlightDetailsBottomSheetFragment : BottomSheetDialogFragment() {
             val flightNumber = it.getString(ARG_FLIGHT_NUMBER)
             val departure = it.getString(ARG_DEPARTURE)
             val destination = it.getString(ARG_DESTINATION)
+            val isLive: Boolean = it.getBoolean(ARG_IS_LIVE)
+
 
             flightNumberText = flightNumber
             flightDepartureText = departure
@@ -89,6 +94,10 @@ class FlightDetailsBottomSheetFragment : BottomSheetDialogFragment() {
             flightNumberTextView?.text = "Flight number: $flightNumber"
             departureTextView?.text = "Departure: $departure"
             destinationTextView?.text = "Destination: $destination"
+
+            if (isLive){
+                listener?.onUpdateButtonClicked(flightNumberText!!, flightDepartureText!!, flightDestinationText!!, false)
+            }
         }
 
         val updateButton = rootView.findViewById<Button>(R.id.liveButton)
