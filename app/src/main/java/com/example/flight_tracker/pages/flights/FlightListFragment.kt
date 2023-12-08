@@ -45,8 +45,6 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener, Di
         viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
         flightsList = mutableListOf<FlightModel>()
 
-        viewModel.flightsUiState().value = RequestListener.Loading("Loading...")
-
         viewModel.flightsList().observe(requireActivity()) {
             flightsList.addAll(it)
 
@@ -58,9 +56,8 @@ class FlightListFragment : Fragment(), FlightListAdapter.OnCellClickListener, Di
 
         viewModel.flightsUiState().observe(requireActivity()) {
             when(it) {
-                is RequestListener.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                }
+                is RequestListener.Loading -> {}
+
                 is RequestListener.Success -> {
                     progressBar.visibility = View.GONE
                 }
