@@ -80,7 +80,7 @@ class FlightListActivity : AppCompatActivity() {
             else -> super.onBackPressed()
         }
     }
-    
+
     fun showMapFragment() {
         if (!isLargeScreen) {
             supportFragmentManager.beginTransaction()
