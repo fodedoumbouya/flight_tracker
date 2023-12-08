@@ -33,7 +33,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.437"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                android:backgroundTint="@color/third" />
 
             <Button
                 android:id="@+id/zoomOutButton"
@@ -52,7 +53,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/zoomInButton"
                 app:layout_constraintVertical_bias="0.0"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                android:backgroundTint="@color/third"/>
 
 
             <Button
@@ -67,7 +69,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.976"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                android:backgroundTint="@color/third"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:background="@color/flight_list_item_first_bar_bg"
+        android:background="@color/third"
         android:paddingHorizontal="5dp">
 
         <TextView
