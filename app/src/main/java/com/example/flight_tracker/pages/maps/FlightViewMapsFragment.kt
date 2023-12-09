@@ -3,12 +3,10 @@ package com.example.flight_tracker.pages.maps
 import FlightDetailsBottomSheetFragment
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flight_tracker.R
@@ -31,8 +29,6 @@ import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.UpdateDataListener {
     private var mapView: MapView? = null
@@ -75,20 +71,22 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
         viewTrackingModel = ViewModelProvider(requireActivity()).get(FlightMapsViewModel::class.java)
-        viewModel.getClickedFlightLiveData().observe(requireActivity()) {
+        viewModel.getClickedFlightLiveData().observe(requireActivity()) {it ->
 
 //            Log.d("Test", it.toString());
-            flightInfo = it!!
-            if (it?.icao24 != null){
-                viewTrackingModel.getFlights(it.icao24)
+            if (it != null){
+                flightInfo = it!!
+                if (it?.icao24 != null){
+                    viewTrackingModel.getFlights(it.icao24)
+                }
             }
+
 
         }
         viewTrackingModel.flightTracking().observe(requireActivity()) { it ->
             // getting the flight track data
             flightTracking  = it
             /// getting all the lat log from the data
-
 //            Log.d("flightTracking",flightTracking.toString())
 
             postionFlight = mutableListOf()
@@ -176,10 +174,10 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
             PropertyFactory.lineWidth(4f),
             PropertyFactory.lineColor(Color.parseColor("#e55e5e"))
         )
-    if (mapboxMap.style!!.getSource(sourceId) == null && mapboxMap.style!!.getLayer(layerId) == null){
+    if (mapboxMap.style?.getSource(sourceId) == null && mapboxMap.style?.getLayer(layerId) == null){
         // Add the LineLayer to the map
-        mapboxMap.style!!.addSource(GeoJsonSource(sourceId, lineString))
-        mapboxMap.style!!.addLayer(lineLayer)
+        mapboxMap.style?.addSource(GeoJsonSource(sourceId, lineString))
+        mapboxMap.style?.addLayer(lineLayer)
         /// center the camera
         mapsConfigCenterZoom(routes,null)
     }
@@ -215,7 +213,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
     private fun removeAllMarkers() {
         for (marker in markersList) {
-            marker.remove()
+            marker?.remove()
         }
         markersList.clear()
     }
@@ -301,7 +299,6 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
     /// the call back when user tap on the "[Info]" or "[Live]" on the button sheet
     override fun onUpdateButtonClicked(flightNumber: String,departure: String,destination: String , isLiveClicked: Boolean) {
         if(isLiveClicked){
-
             getLiveData()
             isBottomSheetLiveState = true
 
@@ -357,11 +354,11 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
 
             // Remove collected layers associated with the source
             for (layerIdToRemove in layersToRemove) {
-                style.removeLayer(layerIdToRemove)
+                style?.removeLayer(layerIdToRemove)
             }
 
             // Remove the source
-            style.removeSource(sourceId)
+            style?.removeSource(sourceId)
         }
     }
 
@@ -385,10 +382,7 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         mapView?.onStop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView?.onDestroy()
-    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
