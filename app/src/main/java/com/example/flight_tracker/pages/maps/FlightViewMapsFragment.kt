@@ -17,6 +17,7 @@ import com.example.flight_tracker.R
 
 import com.example.flight_tracker.models.openSkyApiModels.FlightData
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
+import com.example.flight_tracker.network.RequestListener
 
 import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
 
@@ -85,6 +86,32 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
         viewTrackingModel = ViewModelProvider(requireActivity()).get(FlightMapsViewModel::class.java)
+
+        //change ui depending on live track request
+        viewTrackingModel.flightsUiState().observe(requireActivity()) {
+            when(it) {
+                is RequestListener.Loading -> {}
+
+                is RequestListener.Success -> {
+                }
+                is RequestListener.Error -> {
+                    if (isAdded && parentFragmentManager != null) {
+                        DialogFragmentCustom("Failed during the request, check your connection or the API is not available now.", "Try again", this).show(
+                            parentFragmentManager, "DialogFragmentError"
+                        )
+                    }
+
+                }
+                is RequestListener.Failed -> {
+                    if (isAdded && parentFragmentManager != null) {
+                        DialogFragmentCustom(it.message, "Cancel", this).show(
+                            parentFragmentManager, "DialogFragmentFailed"
+                        )
+                    }
+                }
+            }
+        }
+
         viewModel.getClickedFlightLiveData().observe(requireActivity()) {it ->
 
             if (it != null){
@@ -414,7 +441,7 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
     }
 
     override fun onNegativeButtonClickDialogFragment() {
-        TODO("Fode, it's up to you to implement this function")
+        //TODO change here or delete everytinhg
         val activity = activity
 
         if (activity != null && activity is AppCompatActivity) {
@@ -424,7 +451,6 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
             }else{
                 Log.d("Action", "En mode petit écran")
             }
-
         }
 
     }

@@ -20,9 +20,12 @@ class FlightMapsViewModel : ViewModel() {
     private var _flightsUiState = MutableLiveData<RequestListener<String>>()
     private var _flightsPosition = MutableLiveData<FlightData>()
 
-
     fun flightTracking() : MutableLiveData<FlightData> {
         return _flightsListTracking
+    }
+
+    fun flightsUiState(): MutableLiveData<RequestListener<String>> {
+        return _flightsUiState
     }
 
     fun flightLiveData() :MutableLiveData<FlightData> {
