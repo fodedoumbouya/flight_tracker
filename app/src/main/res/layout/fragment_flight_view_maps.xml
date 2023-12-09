@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        >
+        tools:visibility="gone">
+
         <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <!-- Add content to the Bottom Sheet -->
 
@@ -29,13 +30,13 @@
             android:layout_height="match_parent">
 
 
-
             <Button
                 android:id="@+id/zoomInButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="16dp"
+                android:backgroundTint="@color/third"
                 android:padding="0dp"
                 android:text="+"
                 android:textSize="30dp"
@@ -45,8 +46,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.437"
-                tools:ignore="MissingConstraints"
-                android:backgroundTint="@color/third" />
+                tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/zoomOutButton"
@@ -56,6 +56,7 @@
                 android:layout_margin="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/third"
                 android:padding="0dp"
                 android:text="-"
                 android:textSize="30dp"
@@ -65,8 +66,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/zoomInButton"
                 app:layout_constraintVertical_bias="0.0"
-                tools:ignore="MissingConstraints"
-                android:backgroundTint="@color/third"/>
+                tools:ignore="MissingConstraints" />
 
 
             <Button
@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:backgroundTint="@color/third"
                 android:text="Details"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,13 +82,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.976"
-                tools:ignore="MissingConstraints"
-                android:backgroundTint="@color/third"/>
+                tools:ignore="MissingConstraints" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.mapbox.mapboxsdk.maps.MapView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/black"
+        android:id="@+id/linearMapsFragmentNoDataId">
+
+        <ImageView
+            android:id="@+id/imageMapsFragmentNoDataId"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/flight_tracker_logo" />
+
+        <TextView
+            android:id="@+id/textMapsFragmentNoDataId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_clicked_flight_text"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
 
 </FrameLayout>
