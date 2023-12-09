@@ -19,7 +19,7 @@ import com.example.flight_tracker.pages.home.DatePickerFragment
 import com.example.flight_tracker.viewModel.FlightTrackViewModel
 
 
-class MainActivity : AppCompatActivity(), DialogFragmentCustom.CustomDialogListener {
+class MainActivity : AppCompatActivity(){
 
 
     private lateinit var viewModel : FlightTrackViewModel
@@ -112,9 +112,19 @@ class MainActivity : AppCompatActivity(), DialogFragmentCustom.CustomDialogListe
                 startActivity(intent)
 
             } else {
-                DialogFragmentCustom("Please fill all input to search your flight", "Ok, I get it", this).show(
-                    supportFragmentManager, "DialogFragmentErrorLoad"
-                )
+//                DialogFragmentCustom("Please fill all input to search your flight", "Ok, I get it", this).show(
+//                    supportFragmentManager, "DialogFragmentErrorLoad"
+//                )
+
+                DialogFragmentCustom.newInstance(
+                    "Please fill all input to search your flight",
+                    "Ok, I get it",
+                    object : DialogFragmentCustom.CustomDialogListener {
+                        override fun onNegativeButtonClickDialogFragment() {
+
+                        }
+                    }
+                ).show(supportFragmentManager, "DialogFragmentErrorLoad")
             }
         }
 
@@ -150,9 +160,4 @@ class MainActivity : AppCompatActivity(), DialogFragmentCustom.CustomDialogListe
             btnEditAirport.visibility = View.VISIBLE
         }
     }
-
-    override fun onNegativeButtonClickDialogFragment() {
-
-    }
-
 }

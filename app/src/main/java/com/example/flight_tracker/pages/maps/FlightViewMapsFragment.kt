@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -41,7 +40,7 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 
 
-class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogListener, FlightDetailsBottomSheetFragment.UpdateDataListener  {
+class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.UpdateDataListener  {
     private var mapView: MapView? = null
     private var zoom:Double = 2.0
     private var isBottomSheetLiveState:Boolean =false
@@ -96,17 +95,48 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
                 }
                 is RequestListener.Error -> {
                     if (isAdded && parentFragmentManager != null) {
-                        DialogFragmentCustom("Failed during the request, check your connection or the API is not available now.", "Try again", this).show(
-                            parentFragmentManager, "DialogFragmentError"
-                        )
+                        DialogFragmentCustom.newInstance(
+                            "Failed during the request, check your connection or the API is not available now.",
+                            "Try again",
+                            object : DialogFragmentCustom.CustomDialogListener {
+                                override fun onNegativeButtonClickDialogFragment() {
+                                    val activity = activity
+
+                                    if (activity != null && activity is AppCompatActivity) {
+                                        val isLargeScreen = activity.findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
+                                        if(isLargeScreen){
+                                            Log.d("Action", "En mode écran large")
+                                        }else{
+                                            Log.d("Action", "En mode petit écran")
+                                        }
+                                    }
+                                }
+                            }
+                        ).show(parentFragmentManager, "DialogFragmentError")
                     }
 
                 }
                 is RequestListener.Failed -> {
                     if (isAdded && parentFragmentManager != null) {
-                        DialogFragmentCustom(it.message, "Cancel", this).show(
-                            parentFragmentManager, "DialogFragmentFailed"
-                        )
+
+                        DialogFragmentCustom.newInstance(
+                            it.message,
+                            "Cancel",
+                            object : DialogFragmentCustom.CustomDialogListener {
+                                override fun onNegativeButtonClickDialogFragment() {
+                                    val activity = activity
+
+                                    if (activity != null && activity is AppCompatActivity) {
+                                        val isLargeScreen = activity.findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
+                                        if(isLargeScreen){
+                                            Log.d("Action", "En mode écran large")
+                                        }else{
+                                            Log.d("Action", "En mode petit écran")
+                                        }
+                                    }
+                                }
+                            }
+                        ).show(parentFragmentManager, "DialogFragmentFailed")
                     }
                 }
             }
@@ -440,20 +470,5 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView?.onSaveInstanceState(outState)
-    }
-
-    override fun onNegativeButtonClickDialogFragment() {
-        //TODO change here or delete everytinhg
-        val activity = activity
-
-        if (activity != null && activity is AppCompatActivity) {
-            val isLargeScreen = activity.findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
-            if(isLargeScreen){
-                Log.d("Action", "En mode écran large")
-            }else{
-                Log.d("Action", "En mode petit écran")
-            }
-        }
-
     }
 }
