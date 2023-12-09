@@ -2,7 +2,7 @@
   {
     "icao24": "3944e8",
     "estDepartureAirport": "KBOS",
-    "estArrivalAirport": null,
+    "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
     "firstSeen": 1572285820,
     "callsign": "AFR42RK",
