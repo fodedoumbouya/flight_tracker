@@ -8,12 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import com.example.flight_tracker.R
+
 import com.example.flight_tracker.models.openSkyApiModels.FlightData
 import com.example.flight_tracker.models.openSkyApiModels.FlightModel
+
+import com.example.flight_tracker.pages.dialog.DialogFragmentCustom
+
 import com.example.flight_tracker.viewModel.FlightListViewModel
 import com.example.flight_tracker.viewModel.FlightMapsViewModel
 import com.mapbox.geojson.LineString
@@ -31,10 +37,10 @@ import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import kotlinx.coroutines.launch
-import kotlin.random.Random
 
-class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.UpdateDataListener {
+
+
+class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogListener, FlightDetailsBottomSheetFragment.UpdateDataListener  {
     private var mapView: MapView? = null
     private var zoom:Double = 2.0
     private var isBottomSheetLiveState:Boolean =false
@@ -78,11 +84,12 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
         viewModel.getClickedFlightLiveData().observe(requireActivity()) {
 
 //            Log.d("Test", it.toString());
-            flightInfo = it!!
-            if (it?.icao24 != null){
-                viewTrackingModel.getFlights(it.icao24)
+            if (it != null){
+                flightInfo = it
+                if (it?.icao24 != null){
+                    viewTrackingModel.getFlights(it.icao24)
+                }
             }
-
         }
         viewTrackingModel.flightTracking().observe(requireActivity()) { it ->
             // getting the flight track data
@@ -393,5 +400,21 @@ class FlightViewMapsFragment : Fragment(), FlightDetailsBottomSheetFragment.Upda
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView?.onSaveInstanceState(outState)
+    }
+
+    override fun onNegativeButtonClickDialogFragment() {
+        TODO("Fode, it's up to you to implement this function")
+        val activity = activity
+
+        if (activity != null && activity is AppCompatActivity) {
+            val isLargeScreen = activity.findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
+            if(isLargeScreen){
+                Log.d("Action", "En mode écran large")
+            }else{
+                Log.d("Action", "En mode petit écran")
+            }
+
+        }
+
     }
 }

@@ -13,7 +13,7 @@
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:background="@color/flight_list_item_first_bar_bg"
+        android:background="@color/third"
         android:paddingHorizontal="5dp">
 
         <TextView
@@ -22,16 +22,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="AA 171 American Airlines"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textFlightStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="En Route"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -82,29 +72,33 @@
                 android:textColor="@color/flight_list_item_time_color" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textFlightRouteArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/flightRouteArrowImg"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
-            android:text=" ====>>>" />
+            android:layout_gravity="center"
+            android:src="@drawable/plane_flight_icon" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/textArrivalCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:text="Los Angeles" />
 
             <TextView
                 android:id="@+id/textArrivalAirportInitials"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:text="LAX"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -113,6 +107,7 @@
                 android:id="@+id/textArrivalTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:text="08:55"
                 android:textColor="@color/flight_list_item_time_color" />
         </LinearLayout>
