@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -52,6 +53,7 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
     private var bottomSheetFragment: FlightDetailsBottomSheetFragment? = null
     // Maintain a list to keep track of added markers
     private val markersList = mutableListOf<Marker>()
+    private lateinit var noClickedLinearLayoutView: ViewGroup;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +74,9 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
         // Map View Widget
         mapWidget(view,savedInstanceState)
         detailsView(view)
+        mapView?.visibility = View.GONE
+        noClickedLinearLayoutView = view.findViewById(R.id.linearMapsFragmentNoDataId)
+        noClickedLinearLayoutView.visibility = View.VISIBLE
 
         return view
     }
@@ -82,8 +87,9 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
         viewTrackingModel = ViewModelProvider(requireActivity()).get(FlightMapsViewModel::class.java)
         viewModel.getClickedFlightLiveData().observe(requireActivity()) {it ->
 
-//            Log.d("Test", it.toString());
             if (it != null){
+                mapView?.visibility = View.VISIBLE
+                noClickedLinearLayoutView.visibility = View.GONE
                 flightInfo = it
                 if (it?.icao24 != null){
                     viewTrackingModel.getFlights(it.icao24)
@@ -139,9 +145,10 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
     private fun mapWidget( view: View ,savedInstanceState: Bundle?) {
         // mapping the maps to the maps layout inside the fragment_maps
         mapView = view.findViewById(R.id.mapView)
+
         // Config
-        mapView!!.onCreate(savedInstanceState)
-        mapView!!.getMapAsync { mapboxMa ->
+        mapView?.onCreate(savedInstanceState)
+        mapView?.getMapAsync { mapboxMa ->
             // mapboxMap.setStyle(Style.MAPBOX_STREETS) {
             this.mapboxMap = mapboxMa
             mapboxMap.setStyle(
