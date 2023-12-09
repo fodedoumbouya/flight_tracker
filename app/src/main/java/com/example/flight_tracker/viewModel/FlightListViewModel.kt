@@ -1,5 +1,6 @@
 package com.example.flight_tracker.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -60,8 +61,13 @@ class FlightListViewModel : ViewModel() {
 
                     }
                     is RequestListener.Success<*> -> {
+                        val filteredFlights = requestResponseToList(result.data)
+                            .filter {
+                                it.estDepartureAirport != null  && it.estDepartureAirport != "" && it.estArrivalAirport != ""  && it.lastSeen != null
+                                && it.icao24 != ""  && it.icao24 != null && it.estArrivalAirport != null  && it.firstSeen != null
+                            }
                         _flightsUiState.postValue(RequestListener.Success(result.data))
-                        _flightsList.postValue(requestResponseToList(result.data))
+                        _flightsList.postValue(filteredFlights)
                     }
                     is RequestListener.Error -> {
                         _flightsUiState.postValue(RequestListener.Error(result.exception))

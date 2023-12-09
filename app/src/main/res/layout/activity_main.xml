@@ -1,19 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity"
+    >
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:id="@+id/main_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
+    <ImageView
+        android:id="@+id/logo_app"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/flight_tracker_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/flight_search_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/departure"
+        android:layout_marginTop="@dimen/space_between"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/teko_bold"
+        android:textSize="@dimen/font_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_app" />
+
+    <ImageView
+        android:id="@+id/logo_switch_departure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/takeoff"
+        android:layout_marginStart="-30dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/btn_switch"
+        app:layout_constraintTop_toTopOf="@+id/btn_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/btn_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/flight_search_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:thumbTint="@color/secondary"
+        app:trackTint="@color/primary" />
+
+    <ImageView
+        android:id="@+id/logo_switch_arrival"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/land"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@+id/btn_switch"
+        app:layout_constraintTop_toTopOf="@+id/btn_switch" />
+
+
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_airport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:hint="@string/choose_airport"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/custom_airlines"
+        android:completionThreshold="1"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="12dp"
+        android:layout_marginTop="@dimen/space_between"
+        android:fontFamily="@font/teko_regular"
+        android:paddingBottom="10dp"
+        android:textSize="@dimen/font_size"
+        android:background="@drawable/custom_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_switch"
+        app:layout_constraintEnd_toStartOf="@+id/btn_edit_airport"
         />
 
+    <android.widget.Button
+        android:id="@+id/btn_edit_airport"
+        android:layout_width="@dimen/image_sqaure"
+        android:layout_height="@dimen/image_sqaure"
+        android:background="@drawable/btn_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/autocomplete_airport"
+        app:layout_constraintTop_toTopOf="@+id/autocomplete_airport"
+        app:layout_constraintBottom_toBottomOf="@+id/autocomplete_airport"
+        tools:visibility="visible"
+        />
+
+    <EditText
+        android:id="@+id/date_begin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="@string/begin_date"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/custom_calendar"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="10dp"
+        android:fontFamily="@font/teko_regular"
+        android:layout_marginTop="@dimen/space_between"
+        android:textSize="@dimen/font_size"
+        android:background="@drawable/custom_input"
+        android:focusableInTouchMode="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        app:layout_constraintTop_toBottomOf="@+id/autocomplete_airport"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <EditText
+        android:id="@+id/date_end"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="@string/end_date"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/custom_calendar"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="@dimen/space_between"
+        android:fontFamily="@font/teko_regular"
+        android:layout_marginTop="@dimen/space_between"
+        android:textSize="@dimen/font_size"
+        android:background="@drawable/custom_input"
+        android:focusableInTouchMode="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        app:layout_constraintTop_toBottomOf="@+id/date_begin"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_validate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between"
+        android:fontFamily="@font/teko_bold"
+        android:textSize="@dimen/font_size_min"
+        android:text="@string/btn_validate"
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_end"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

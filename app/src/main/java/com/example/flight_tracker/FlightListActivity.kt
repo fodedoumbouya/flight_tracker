@@ -2,6 +2,8 @@ package com.example.flight_tracker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,9 +24,22 @@ class FlightListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFlightListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_id)
+
+        // Gestion de l'app bar
+        setSupportActionBar(toolbar)
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
         isLargeScreen = findViewById<FragmentContainerView>(R.id.fragment_map_container) != null
         val fragmentLittleScreen = supportFragmentManager.findFragmentById(R.id.fragment_list_container)
         isMapFragmentVisible = fragmentLittleScreen is FlightViewMapsFragment
+
+        if(isMapFragmentVisible){
+            supportActionBar?.hide()
+        }
 
         if (isLargeScreen) {
             supportFragmentManager.beginTransaction()
@@ -60,12 +75,11 @@ class FlightListActivity : AppCompatActivity() {
                     .replace(R.id.fragment_list_container, flightsListFragment)
                     .commit()
                 isMapFragmentVisible = false
+                supportActionBar?.show()
             }
             else -> super.onBackPressed()
         }
     }
-
-
 
     fun showMapFragment() {
         if (!isLargeScreen) {
@@ -73,6 +87,7 @@ class FlightListActivity : AppCompatActivity() {
                 .replace(R.id.fragment_list_container, flightViewMapsFragment)
                 .commit()
             isMapFragmentVisible = true
+            supportActionBar?.hide()
         }
     }
 }

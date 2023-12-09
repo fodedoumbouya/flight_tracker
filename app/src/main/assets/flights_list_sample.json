@@ -1,8 +1,8 @@
 [
   {
     "icao24": "3944e8",
-    "estDepartureAirport": "LFBO",
-    "estArrivalAirport": "LFPO",
+    "estDepartureAirport": "KBOS",
+    "estArrivalAirport": null,
     "lastSeen": 1572285820,
     "firstSeen": 1572285820,
     "callsign": "AFR42RK",
@@ -13,8 +13,8 @@
   },
   {
     "icao24": "3944e9",
-    "estDepartureAirport": "LFBO",
-    "estArrivalAirport": "LFPO",
+    "estDepartureAirport": "",
+    "estArrivalAirport": "KSEA",
     "lastSeen": 1572285820,
     "callsign": "AFR42RL",
     "estDepartureAirportHorizDistance": 1050,
@@ -24,8 +24,8 @@
   },
   {
     "icao24": "3944e7",
-    "estDepartureAirport": "LFBO",
-    "estArrivalAirport": "LFPO",
+    "estDepartureAirport": "KPVG",
+    "estArrivalAirport": "KSFO",
     "lastSeen": 1572285820,
     "callsign": "AFR42RM",
     "estDepartureAirportHorizDistance": 1050,
@@ -35,7 +35,7 @@
   },
   {
     "icao24": "3944e6",
-    "estDepartureAirport": "LFBO",
+    "estDepartureAirport": "KPRG",
     "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
     "callsign": "AFR42RN",
@@ -46,8 +46,8 @@
   },
   {
     "icao24": "3944e5",
-    "estDepartureAirport": "LFBO",
-    "estArrivalAirport": "LFPO",
+    "estDepartureAirport": "KPRG",
+    "estArrivalAirport": "WSSS",
     "lastSeen": 1572285820,
     "callsign": "AFR42RO",
     "estDepartureAirportHorizDistance": 1050,
@@ -57,8 +57,8 @@
   },
   {
     "icao24": "3944e4",
-    "estDepartureAirport": "LFBO",
-    "estArrivalAirport": "LFPO",
+    "estDepartureAirport": "LFPO",
+    "estArrivalAirport": "KPRG",
     "lastSeen": 1572285820,
     "callsign": "AFR42RP",
     "estDepartureAirportHorizDistance": 1050,
@@ -68,7 +68,7 @@
   },
   {
     "icao24": "3944e3",
-    "estDepartureAirport": "LFBO",
+    "estDepartureAirport": "KPRG",
     "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
     "callsign": "AFR42RQ",
@@ -79,7 +79,7 @@
   },
   {
     "icao24": "3944e2",
-    "estDepartureAirport": "LFBO",
+    "estDepartureAirport": "KPRG",
     "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
     "callsign": "AFR42RR",
@@ -90,7 +90,7 @@
   },
   {
     "icao24": "3944e1",
-    "estDepartureAirport": "LFBO",
+    "estDepartureAirport": "KPRG",
     "estArrivalAirport": "LFPO",
     "lastSeen": 1572285820,
     "callsign": "AFR42RS",

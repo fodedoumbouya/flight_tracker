@@ -10,23 +10,24 @@ import androidx.navigation.fragment.findNavController
  * @author by Idricealy on 08/11/2023
  *
  */
-class DialogFragmentCustom(private val fromHome : Boolean = false,
-                           private val message : String,
-                           private val negativBtnMessage : String ) : DialogFragment() {
 
-    /**
-     * TODO: Need to check why popBackStack can crash application
-     */
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        AlertDialog.Builder(requireContext())
-            .setMessage(message)
-            .setNegativeButton(negativBtnMessage) { _,_ ->
-                // popBackStack only if is not from homeFragment otherwise currentDestination will be null
-                // https://developer.android.com/guide/navigation/backstack?hl=fr
-                if(!fromHome) {
-                    findNavController().popBackStack()
-                }
+class DialogFragmentCustom(
+    private val message: String,
+    private val negativeBtnMessage: String,
+    private val listener: CustomDialogListener
+) : DialogFragment() {
+    interface CustomDialogListener {
+        fun onNegativeButtonClickDialogFragment()
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage(message)
+            .setNegativeButton(negativeBtnMessage) { _, _ ->
+                listener.onNegativeButtonClickDialogFragment()
             }
-            .create()
 
+        return builder.create()
+    }
 }
+
