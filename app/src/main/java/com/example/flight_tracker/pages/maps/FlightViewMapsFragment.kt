@@ -124,21 +124,27 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
 
             // Ensure that mapboxMap is initialized before using it
             if (::mapboxMap.isInitialized) {
-                /// sending to the maps
-                createLine(mapboxMap, postionFlight,"line-layer", "line-source")
-
-                var from = postionFlight.first()
-                var to = postionFlight.last()
-                var departure = flightInfo.estDepartureAirport
-                var arrival = flightInfo.estArrivalAirport
-                var flightName = flightInfo.callsign
-                removeAllMarkers()
-
-                // Add two airports as markers
-                createMarker( "Departure: $departure", "Flight: $flightName",from,null)
-                createMarker( "Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
+                createInfoOnMap()
             }
         }
+    }
+
+    private fun createInfoOnMap(){
+        Log.d("flightTracking","isInitialized")
+
+        /// sending to the maps
+        createLine(mapboxMap, postionFlight,"line-layer", "line-source")
+
+        var from = postionFlight.first()
+        var to = postionFlight.last()
+        var departure = flightInfo.estDepartureAirport
+        var arrival = flightInfo.estArrivalAirport
+        var flightName = flightInfo.callsign
+        removeAllMarkers()
+
+        // Add two airports as markers
+        createMarker( "Departure: $departure", "Flight: $flightName",from,null)
+        createMarker( "Arrival: $arrival", "Flight: $flightName",to,null) //R.drawable.airplane
     }
 
     /// creating the map
@@ -157,6 +163,10 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
             ) {
                 // Linking Zoom Button to the maps
                 zoomButtons(mapboxMap,view)
+                /// on create map view check if the the data are not null and if they are not then add it on the maps
+                if ( (::postionFlight.isInitialized &&  postionFlight != null) && (::flightInfo.isInitialized && flightInfo != null)){
+                    createInfoOnMap()
+                }
             }
         }
 
