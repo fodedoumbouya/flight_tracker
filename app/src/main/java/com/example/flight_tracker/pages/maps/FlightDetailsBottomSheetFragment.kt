@@ -27,12 +27,12 @@ class FlightDetailsBottomSheetFragment : BottomSheetDialogFragment() {
     fun setUpdateDataListener(listener: UpdateDataListener) {
         this.listener = listener
     }
-    fun updateValues(flightNumber: String, position: String, speed: String, buttonAction: Boolean) {
+    fun updateValues(flightNumber: String, position: String, speed: String,verticalRate: String ,buttonAction: Boolean) {
         val buttonText = if (!buttonAction) "Live" else "Info"
         if( buttonAction){
             flightNumberTextView?.text = "Flight number: $flightNumber"
-            departureTextView?.text = "Position: $position"
-            destinationTextView?.text = "Flight speed: $speed"
+            destinationTextView?.text = "Speed: $speed kph"
+            departureTextView?.text = "Altitude: $position ft\nVertical Rate: $verticalRate m/s"
         }else{
             flightNumberTextView?.text = "Flight number: $flightNumber"
             departureTextView?.text = "Departure: $position"

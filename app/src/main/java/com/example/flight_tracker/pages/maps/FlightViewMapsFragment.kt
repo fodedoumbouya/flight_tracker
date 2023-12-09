@@ -327,7 +327,7 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
             isBottomSheetLiveState = true
 
         }else{
-            bottomSheetFragment?.updateValues(flightNumber, departure,destination, false)
+            bottomSheetFragment?.updateValues(flightNumber, departure,destination, "",false)
             viewTrackingModel.getFlights(flightInfo.icao24)
             isBottomSheetLiveState = false
 
@@ -345,9 +345,11 @@ class FlightViewMapsFragment : Fragment(), DialogFragmentCustom.CustomDialogList
             val latitude = pos[1].toString().toDoubleOrNull() // Parse latitude to Double or null if parsing fails
             val longitude = pos[2].toString().toDoubleOrNull() // Parse longitude to Double or null if parsing fails
             val speed = "0"
+            val altitude = pos[3].toString().toDoubleOrNull().toString()
             val flightName = resp.callsign.toString()
+            val vertical =  pos[4].toString().toDoubleOrNull().toString()
             /// update the button sheet view but as the api is not working and I don't have the model of the return so I just took the flight last destination for only the destination name
-            bottomSheetFragment?.updateValues(resp.callsign.toString(), flightInfo.estArrivalAirport,speed, true)
+            bottomSheetFragment?.updateValues(resp.callsign.toString(), altitude,speed, vertical,true)
 
             // show the plan on the map
            showLivePlan(LatLng(latitude!!, longitude!!), speed, flightName)
