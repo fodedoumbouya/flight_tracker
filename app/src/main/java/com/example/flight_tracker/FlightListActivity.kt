@@ -39,6 +39,8 @@ class FlightListActivity : AppCompatActivity() {
 
         if(isMapFragmentVisible){
             supportActionBar?.hide()
+        }else{
+            supportActionBar?.show()
         }
 
         if (isLargeScreen) {
@@ -88,6 +90,8 @@ class FlightListActivity : AppCompatActivity() {
                 .commit()
             isMapFragmentVisible = true
             supportActionBar?.hide()
+        }else{
+            supportActionBar?.show()
         }
     }
 }
