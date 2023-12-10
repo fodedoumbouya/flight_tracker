@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Flight Tracker</string>
     <string name="arrival">Arrival</string>
     <string name="departure">Departure</string>
     <string name="choose_airport">Choose the airport</string>
